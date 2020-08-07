@@ -10,7 +10,7 @@ int main()
 
     sf::Clock clock;
 
-    Ship ship;
+    Ship ship(window);
 
     while (window.isOpen())
     {
@@ -27,7 +27,7 @@ int main()
 
         window.clear();
         window.draw(shape);
-        ship.Draw(window);
+        ship.Draw();
         ship.Update(deltaTime);
         window.display();
     }

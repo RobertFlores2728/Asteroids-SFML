@@ -4,7 +4,8 @@
 #include <cmath>
 
 
-Ship::Ship() {
+Ship::Ship(sf::RenderWindow& w) {
+    window = &w;
     
     triangle.setPointCount(3);
     triangle.setPoint(0, sf::Vector2f(triangleSize, triangleSize/2));
@@ -22,26 +23,24 @@ Ship::Ship() {
     
 }
 
-void Ship::Draw(sf::RenderWindow& window) {
-    window.draw(triangle);
+void Ship::Draw() {
+    window->draw(triangle);
 }
 
-void Ship::Update(sf::Time deltaTime) {
-    GetInput(deltaTime);
-    GetVelocity(deltaTime);
-    Move(deltaTime);
-
+void Ship::Update(sf::Time dt) {
+    deltaTime = dt;
+    GetInput();
+    GetVelocity();
+    Move();
 }
 
-void Ship::Move(sf::Time deltaTime) {
-
-    
+void Ship::Move() {
     position.x += velocity.x * deltaTime.asSeconds();
     position.y -= velocity.y * deltaTime.asSeconds();
     triangle.setPosition(position.x, position.y);
 }
 
-void Ship::GetInput(sf::Time deltaTime) {
+void Ship::GetInput() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         isThrusting = true;
     }
@@ -60,25 +59,26 @@ void Ship::GetInput(sf::Time deltaTime) {
     }
 }
 
-void Ship::GetVelocity(sf::Time deltaTime) {
+void Ship::GetVelocity() {
     if (isThrusting) {
         // determine direction in which ship moves
         forwardUnitVector.x = std::cos(triangle.getRotation() * 3.141592 / 180.0); //cmath cos and sin functions take in radians but getRotation returns degrees. radians = degrees * pi / 180
         forwardUnitVector.y = -std::sin(triangle.getRotation() * 3.141592 / 180.0); // negative since sfml rotations are in clockwise
 
-        // velocity is equal to the thrust power by the direction of movement
+        // velocity is equal to the thrust power times the unit vector direction of movement
         velocity.x += thrustPower * forwardUnitVector.x * deltaTime.asSeconds();
         velocity.y += thrustPower * forwardUnitVector.y * deltaTime.asSeconds();
 
         //velocity caps
         if (velocity.x > maxVelocity)
             velocity.x = maxVelocity;
+        else if (velocity.x < -maxVelocity)
+            velocity.x = -maxVelocity;
+
+        
         if (velocity.y > maxVelocity)
             velocity.y = maxVelocity;
-
-        if (velocity.x < -maxVelocity)
-            velocity.x = -maxVelocity;
-        if (velocity.y < -maxVelocity)
+        else if (velocity.y < -maxVelocity)
             velocity.y = -maxVelocity;
     }
     else {

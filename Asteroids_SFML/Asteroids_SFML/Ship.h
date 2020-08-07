@@ -4,19 +4,23 @@
 
 class Ship
 {
+	sf::RenderWindow* window;
+
+	sf::Time deltaTime;
+
 	//triangle
 	int triangleSize = 30;
 	sf::ConvexShape triangle;
 
 	sf::Vector2<float> position;
 
-	float rotationSpeed = 200.f;
+	float rotationSpeed = 300.f;
 
 	sf::Vector2f velocity;
 	int maxVelocity = 300;
 
 	bool isThrusting = false;
-	float thrustPower = 300;
+	float thrustPower = 600;
 
 	
 
@@ -25,13 +29,13 @@ class Ship
 	float drag = 50;
 
 public:
-	Ship();
-	void Draw(sf::RenderWindow& window);
+	Ship(sf::RenderWindow& window);
+	void Draw();
 	void Update(sf::Time deltaTime);
-	void Move(sf::Time deltaTime);
-	void GetInput(sf::Time deltaTime);
+	void Move();
+	void GetInput();
 
 	void PrintRotation();
-	void GetVelocity(sf::Time deltaTime);
+	void GetVelocity();
 };
 
