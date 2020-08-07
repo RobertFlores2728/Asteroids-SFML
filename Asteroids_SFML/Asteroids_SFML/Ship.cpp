@@ -28,35 +28,12 @@ void Ship::Draw(sf::RenderWindow& window) {
 
 void Ship::Update(sf::Time deltaTime) {
     GetInput(deltaTime);
+    GetVelocity(deltaTime);
     Move(deltaTime);
 
 }
 
 void Ship::Move(sf::Time deltaTime) {
-    
-    if (isThrusting) {
-        forwardVector.x = std::cos(triangle.getRotation() * 3.141592 / 180.0); //cmath cos and sin functions take in radians but getRotation returns degrees. radians = degrees * pi / 180
-        forwardVector.y = -std::sin(triangle.getRotation() * 3.141592 / 180.0); // negative since sfml rotations are in clockwise
-
-        thrustDirectionVector.x = thrustPower * forwardVector.x;
-        thrustDirectionVector.y = thrustPower * forwardVector.y;
-
-        velocity.x += thrustDirectionVector.x * deltaTime.asSeconds();
-        velocity.y += thrustDirectionVector.y * deltaTime.asSeconds();
-
-        if (velocity.x > maxVelocity)
-            velocity.x = maxVelocity;
-        if (velocity.y > maxVelocity)
-            velocity.y = maxVelocity;
-    }
-    else {
-        velocity.x = velocity.x - (drag * deltaTime.asSeconds());
-        if (velocity.x < -maxVelocity)
-            velocity.x = -maxVelocity;
-        velocity.y = velocity.y - (drag * deltaTime.asSeconds());
-        if (velocity.y < -maxVelocity)
-            velocity.y = -maxVelocity;
-    }
 
     
     position.x += velocity.x * deltaTime.asSeconds();
@@ -80,6 +57,41 @@ void Ship::GetInput(sf::Time deltaTime) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         triangle.setRotation(triangle.getRotation() + (rotationSpeed * deltaTime.asSeconds()));
         PrintRotation();
+    }
+}
+
+void Ship::GetVelocity(sf::Time deltaTime) {
+    if (isThrusting) {
+        // determine direction in which ship moves
+        forwardUnitVector.x = std::cos(triangle.getRotation() * 3.141592 / 180.0); //cmath cos and sin functions take in radians but getRotation returns degrees. radians = degrees * pi / 180
+        forwardUnitVector.y = -std::sin(triangle.getRotation() * 3.141592 / 180.0); // negative since sfml rotations are in clockwise
+
+        // velocity is equal to the thrust power by the direction of movement
+        velocity.x += thrustPower * forwardUnitVector.x * deltaTime.asSeconds();
+        velocity.y += thrustPower * forwardUnitVector.y * deltaTime.asSeconds();
+
+        //velocity caps
+        if (velocity.x > maxVelocity)
+            velocity.x = maxVelocity;
+        if (velocity.y > maxVelocity)
+            velocity.y = maxVelocity;
+
+        if (velocity.x < -maxVelocity)
+            velocity.x = -maxVelocity;
+        if (velocity.y < -maxVelocity)
+            velocity.y = -maxVelocity;
+    }
+    else {
+        // else the velocity is decremented or incremented towards 0 by the drag value
+        if (velocity.x > 0)
+            velocity.x -= (drag * deltaTime.asSeconds());
+        else if (velocity.x < 0)
+            velocity.x += (drag * deltaTime.asSeconds());
+
+        if (velocity.y > 0)
+            velocity.y -= (drag * deltaTime.asSeconds());
+        else if (velocity.y < 0)
+            velocity.y += (drag * deltaTime.asSeconds());
     }
 }
 

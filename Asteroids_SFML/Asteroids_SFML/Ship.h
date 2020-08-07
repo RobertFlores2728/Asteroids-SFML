@@ -18,9 +18,9 @@ class Ship
 	bool isThrusting = false;
 	float thrustPower = 300;
 
-	sf::Vector2f thrustDirectionVector;
+	
 
-	sf::Vector2f forwardVector;
+	sf::Vector2f forwardUnitVector;
 
 	float drag = 50;
 
@@ -32,5 +32,6 @@ public:
 	void GetInput(sf::Time deltaTime);
 
 	void PrintRotation();
+	void GetVelocity(sf::Time deltaTime);
 };
 
