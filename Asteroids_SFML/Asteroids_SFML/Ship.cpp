@@ -33,20 +33,34 @@ void Ship::Update(sf::Time deltaTime) {
 }
 
 void Ship::Move(sf::Time deltaTime) {
+    
     if (isThrusting) {
-        velocity = thrust;
+        forwardVector.x = std::cos(triangle.getRotation() * 3.141592 / 180.0); //cmath cos and sin functions take in radians but getRotation returns degrees. radians = degrees * pi / 180
+        forwardVector.y = -std::sin(triangle.getRotation() * 3.141592 / 180.0); // negative since sfml rotations are in clockwise
+
+        thrustDirectionVector.x = thrustPower * forwardVector.x;
+        thrustDirectionVector.y = thrustPower * forwardVector.y;
+
+        velocity.x += thrustDirectionVector.x * deltaTime.asSeconds();
+        velocity.y += thrustDirectionVector.y * deltaTime.asSeconds();
+
+        if (velocity.x > maxVelocity)
+            velocity.x = maxVelocity;
+        if (velocity.y > maxVelocity)
+            velocity.y = maxVelocity;
     }
     else {
-        velocity = velocity - (drag * deltaTime.asSeconds());
-        if (velocity < 0)
-            velocity = 0;
+        velocity.x = velocity.x - (drag * deltaTime.asSeconds());
+        if (velocity.x < -maxVelocity)
+            velocity.x = -maxVelocity;
+        velocity.y = velocity.y - (drag * deltaTime.asSeconds());
+        if (velocity.y < -maxVelocity)
+            velocity.y = -maxVelocity;
     }
 
-    sf::Vector2f forwardVector;
-    forwardVector.x = std::cos(triangle.getRotation() * 3.141592 / 180.0); //cmath cos and sin functions take in radians but getRotation returns degrees. radians = degrees * pi / 180
-    forwardVector.y = -std::sin(triangle.getRotation() * 3.141592 / 180.0); // negative since sfml rotations are in clockwise
-    position.x = position.x + (velocity * forwardVector.x * deltaTime.asSeconds());
-    position.y = position.y - (velocity * forwardVector.y * deltaTime.asSeconds());
+    
+    position.x += velocity.x * deltaTime.asSeconds();
+    position.y -= velocity.y * deltaTime.asSeconds();
     triangle.setPosition(position.x, position.y);
 }
 

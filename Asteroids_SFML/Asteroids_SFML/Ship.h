@@ -10,14 +10,19 @@ class Ship
 
 	sf::Vector2<float> position;
 
-	float rotationSpeed = 150.f;
+	float rotationSpeed = 200.f;
 
-	float velocity;
+	sf::Vector2f velocity;
+	int maxVelocity = 300;
 
 	bool isThrusting = false;
-	float thrust = 250;
+	float thrustPower = 300;
 
-	float drag = 30;
+	sf::Vector2f thrustDirectionVector;
+
+	sf::Vector2f forwardVector;
+
+	float drag = 50;
 
 public:
 	Ship();
