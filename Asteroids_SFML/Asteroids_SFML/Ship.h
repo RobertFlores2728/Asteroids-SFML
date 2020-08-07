@@ -5,15 +5,17 @@
 class Ship
 {
 	//triangle
-	int triangleSize = 100;
+	int triangleSize = 30;
 	sf::ConvexShape triangle;
 
 	sf::Vector2<float> position;
 
+	float rotationSpeed = 150.f;
+
 	float velocity;
 
 	bool isThrusting = false;
-	float thrust = 100;
+	float thrust = 250;
 
 	float drag = 30;
 
@@ -23,5 +25,7 @@ public:
 	void Update(sf::Time deltaTime);
 	void Move(sf::Time deltaTime);
 	void GetInput(sf::Time deltaTime);
+
+	void PrintRotation();
 };
 
