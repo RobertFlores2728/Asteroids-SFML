@@ -38,6 +38,17 @@ void Ship::Move() {
     position.x += velocity.x * deltaTime.asSeconds();
     position.y -= velocity.y * deltaTime.asSeconds();
     triangle.setPosition(position.x, position.y);
+
+    // screen wrapping effect
+    if (triangle.getPosition().x > window->getSize().x)
+        position.x = 0;
+    else if (triangle.getPosition().x < 0)
+        position.x = window->getSize().x;
+
+    if (triangle.getPosition().y > window->getSize().y)
+        position.y = 0;
+    else if (triangle.getPosition().y < 0)
+        position.y= window->getSize().y;
 }
 
 void Ship::GetInput() {
@@ -63,11 +74,12 @@ void Ship::GetVelocity() {
     if (isThrusting) {
         // determine direction in which ship moves
         forwardUnitVector.x = std::cos(triangle.getRotation() * 3.141592 / 180.0); //cmath cos and sin functions take in radians but getRotation returns degrees. radians = degrees * pi / 180
-        forwardUnitVector.y = -std::sin(triangle.getRotation() * 3.141592 / 180.0); // negative since sfml rotations are in clockwise
+        forwardUnitVector.y = std::sin(triangle.getRotation() * 3.141592 / 180.0);
 
         // velocity is equal to the thrust power times the unit vector direction of movement
         velocity.x += thrustPower * forwardUnitVector.x * deltaTime.asSeconds();
-        velocity.y += thrustPower * forwardUnitVector.y * deltaTime.asSeconds();
+        // subtract since sfml rotations are in clockwise. this is due to the fact that in sfml(and other graphics libraries), y = 0 refers to top of screen and increments positively as it goes down the screen.
+        velocity.y -= thrustPower * forwardUnitVector.y * deltaTime.asSeconds();
 
         //velocity caps
         if (velocity.x > maxVelocity)
@@ -96,7 +108,7 @@ void Ship::GetVelocity() {
 }
 
 void Ship::PrintRotation() {
-    std::cout << "Angle:" << triangle.getRotation();
+    std::cout << "Angle: " << triangle.getRotation();
     std::cout << " Cosine: " << std::cos(triangle.getRotation() * 3.141592 / 180.0);
     std::cout << " Sine: " << std::sin(triangle.getRotation() * 3.141592 / 180.0) << std::endl;
 }

@@ -29,7 +29,7 @@ class Ship
 	float drag = 50;
 
 public:
-	Ship(sf::RenderWindow& window);
+	Ship(sf::RenderWindow& w);
 	void Draw();
 	void Update(sf::Time deltaTime);
 	void Move();
