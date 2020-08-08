@@ -31,7 +31,7 @@ class Ship
 public:
 	Ship(sf::RenderWindow& w);
 	void Draw();
-	void Update(sf::Time deltaTime);
+	void Update(sf::Time dt);
 	void Move();
 	void GetInput();
 
