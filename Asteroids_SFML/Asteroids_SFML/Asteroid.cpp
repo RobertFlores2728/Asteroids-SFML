@@ -7,48 +7,62 @@
 Asteroid::Asteroid(sf::RenderWindow& w) {
 	window = &w;
 
+	SetupConvexShape();
+	
+
+
+}
+
+void Asteroid::SetupConvexShape() {
+	SetPolygonPoints();
+
+	clear = sf::Color(255, 0, 0, 50);
+
+	asteroid.setOutlineColor(sf::Color::White);
+	asteroid.setOutlineThickness(3);
+	asteroid.setFillColor(clear);
+	asteroid.setOrigin(asteroidSize, asteroidSize);
+	asteroid.setPosition(asteroidSize * 2.5, asteroidSize * 2);
+
+	
+}
+
+void Asteroid::SetPolygonPoints() {
+	// get random points number to make polygon. pentagon, hexagon, etc.
 	std::srand((int)std::time(0));
 	int numPoints = 5 + rand() % (3 + 1);
 
 
 	asteroid.setPointCount(numPoints);
 
-	std::cout << "Num of points: " << numPoints << std::endl;
-
-	int degreesPerPoint = (int)(360 / numPoints);
-	std::cout << "Degrees per point: " << degreesPerPoint << std::endl;
 	
+	// draw a point every amount of degrees around a circle. 8 sided polygon = 360/8 = 45 degrees per point
+	int degreesPerPoint = (int)(360 / numPoints);
 
+	// tracks the current angle where a point is drawn to
 	float totalAngle = 1;
 
+	// set each point in the sf::ConvexShape object
 	for (int i = 0; i < numPoints; i++) {
-		std::cout << "now on point: " << i << ". ";
-		
-		std::cout << "Angle: " << totalAngle;
-		std::cout << " Cosine: " << std::cos(totalAngle * 3.141592 / 180.0);
-		std::cout << " Sine: " << std::sin(totalAngle * 3.141592 / 180.0) << std::endl;
 
-		sf::Vector2f position;
-		position.x = std::cos(totalAngle * 3.141592 / 180.0) * asteroidSize;
-		position.y = std::sin(totalAngle * 3.141592 / 180.0) * asteroidSize;
+		sf::Vector2f position; // position of point
+		int offset = -(1 + rand() % (14 + 1)); // in order to make asteroids look deform and more varied
+		position.x = std::cos(totalAngle * 3.141592 / 180.0) * asteroidSize + offset; // x position of point
+		position.y = std::sin(totalAngle * 3.141592 / 180.0) * asteroidSize + offset; // y position of point
 
-		//add point to convex shape
+		//add the point to the convex shape
 		asteroid.setPoint(i, sf::Vector2f(position.x, -position.y));
 
 		totalAngle += degreesPerPoint;
-		
+
 	}
-
-	asteroid.setOutlineColor(sf::Color::White);
-	asteroid.setOutlineThickness(3);
-	asteroid.setFillColor(sf::Color::Black);
-	asteroid.setPosition(500, 500);
-
-
 }
 
 void Asteroid::Draw() {
-	window->draw(asteroid);
+	
+	sprite.setPosition(500, 500);
+	window->draw(sprite);
+
 }
 
 void Asteroid::Update(sf::Time dt) {

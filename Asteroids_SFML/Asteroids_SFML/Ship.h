@@ -9,8 +9,12 @@ class Ship
 	sf::Time deltaTime;
 
 	//triangle
-	int triangleSize = 30;
-	sf::ConvexShape triangle;
+	int shipSize = 30;
+	sf::ConvexShape ship;
+	sf::RenderTexture texture;
+	sf::Sprite sprite;
+
+	sf::Color clear;
 
 	sf::Vector2<float> position;
 

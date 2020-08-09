@@ -6,6 +6,10 @@ class Asteroid
 {
 	sf::RenderWindow* window;
 
+	sf::RenderTexture texture;
+	sf::Sprite sprite;
+	sf::Color clear;
+
 	sf::Time deltaTime;
 
 	sf::ConvexShape asteroid;
@@ -14,6 +18,9 @@ class Asteroid
 
 public:
 	Asteroid(sf::RenderWindow& w);
+	void SetupConvexShape();
+	void SetPolygonPoints();
+
 	void Draw();
 	void Update(sf::Time deltaTime);
 };

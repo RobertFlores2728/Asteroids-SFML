@@ -8,10 +8,6 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!");
     window.setFramerateLimit(120);
 
-    
-
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
 
     sf::Clock clock;
 
@@ -32,9 +28,9 @@ int main()
         }
 
         window.clear();
-        window.draw(shape);
-        asteroid1.Draw();
         ship.Draw();
+        asteroid1.Draw();
+        //ship.Draw();
         ship.Update(deltaTime);
         window.display();
 

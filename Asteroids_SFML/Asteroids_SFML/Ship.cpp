@@ -6,25 +6,41 @@
 
 Ship::Ship(sf::RenderWindow& w) {
     window = &w;
+
+    clear = sf::Color(0, 0, 255, 100);
     
-    triangle.setPointCount(3);
-    triangle.setPoint(0, sf::Vector2f(triangleSize, triangleSize/2));
-    triangle.setPoint(1, sf::Vector2f(0, 0));
-    triangle.setPoint(2, sf::Vector2f(0, triangleSize));
-    triangle.setOrigin(triangleSize/2, triangleSize/2);
-    triangle.setOutlineColor(sf::Color::White);
-    triangle.setOutlineThickness(3);
+    ship.setPointCount(3);
+    ship.setPoint(0, sf::Vector2f(shipSize, shipSize/2));
+    ship.setPoint(1, sf::Vector2f(0, 0));
+    ship.setPoint(2, sf::Vector2f(0, shipSize));
+    ship.setOrigin(shipSize/2, shipSize/2);
+    ship.setOutlineColor(sf::Color::White);
+    ship.setOutlineThickness(3);
     position.x = 500;
     position.y = 500;
-    triangle.setFillColor(sf::Color::Black);
+    ship.setFillColor(clear);
 
-    triangle.setRotation(0.f); // rotations in sfml go in clockwise fashion
-    PrintRotation();
+    ship.setRotation(0.f); // rotations in sfml go in clockwise fashion
     
+
+    ship.setPosition(shipSize, shipSize);
+
+    texture.create(shipSize * 2, shipSize * 2);
+    sprite = sf::Sprite(texture.getTexture());
+    sprite.setPosition(position.x, position.y);
+    sprite.setOrigin((shipSize * 2) / 2, (shipSize * 2) / 2);
+    texture.clear(clear);
+    texture.draw(ship);
+    texture.display();
 }
 
 void Ship::Draw() {
-    window->draw(triangle);
+    //texture.clear(clear);
+    //texture.draw(ship);
+    //texture.display();
+    
+    
+    window->draw(sprite);
 }
 
 void Ship::Update(sf::Time dt) {
@@ -37,17 +53,17 @@ void Ship::Update(sf::Time dt) {
 void Ship::Move() {
     position.x += velocity.x * deltaTime.asSeconds();
     position.y -= velocity.y * deltaTime.asSeconds();
-    triangle.setPosition(position.x, position.y);
+    sprite.setPosition(position.x, position.y);
 
     // screen wrapping effect
-    if (triangle.getPosition().x > window->getSize().x)
+    if (sprite.getPosition().x > window->getSize().x)
         position.x = 0;
-    else if (triangle.getPosition().x < 0)
+    else if (sprite.getPosition().x < 0)
         position.x = window->getSize().x;
 
-    if (triangle.getPosition().y > window->getSize().y)
+    if (sprite.getPosition().y > window->getSize().y)
         position.y = 0;
-    else if (triangle.getPosition().y < 0)
+    else if (sprite.getPosition().y < 0)
         position.y= window->getSize().y;
 }
 
@@ -60,12 +76,12 @@ void Ship::GetInput() {
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        triangle.setRotation(triangle.getRotation() - (rotationSpeed * deltaTime.asSeconds()));
+        sprite.setRotation(sprite.getRotation() - (rotationSpeed * deltaTime.asSeconds()));
         PrintRotation();
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        triangle.setRotation(triangle.getRotation() + (rotationSpeed * deltaTime.asSeconds()));
+        sprite.setRotation(sprite.getRotation() + (rotationSpeed * deltaTime.asSeconds()));
         PrintRotation();
     }
 }
@@ -73,8 +89,8 @@ void Ship::GetInput() {
 void Ship::GetVelocity() {
     if (isThrusting) {
         // determine direction in which ship moves
-        forwardUnitVector.x = std::cos(triangle.getRotation() * 3.141592 / 180.0); //cmath cos and sin functions take in radians but getRotation returns degrees. radians = degrees * pi / 180
-        forwardUnitVector.y = std::sin(triangle.getRotation() * 3.141592 / 180.0);
+        forwardUnitVector.x = std::cos(sprite.getRotation() * 3.141592 / 180.0); //cmath cos and sin functions take in radians but getRotation returns degrees. radians = degrees * pi / 180
+        forwardUnitVector.y = std::sin(sprite.getRotation() * 3.141592 / 180.0);
 
         // velocity is equal to the thrust power times the unit vector direction of movement
         velocity.x += thrustPower * forwardUnitVector.x * deltaTime.asSeconds();
@@ -108,7 +124,7 @@ void Ship::GetVelocity() {
 }
 
 void Ship::PrintRotation() {
-    std::cout << "Angle: " << triangle.getRotation();
-    std::cout << " Cosine: " << std::cos(triangle.getRotation() * 3.141592 / 180.0);
-    std::cout << " Sine: " << std::sin(triangle.getRotation() * 3.141592 / 180.0) << std::endl;
+    std::cout << "Angle: " << sprite.getRotation();
+    std::cout << " Cosine: " << std::cos(sprite.getRotation() * 3.141592 / 180.0);
+    std::cout << " Sine: " << std::sin(sprite.getRotation() * 3.141592 / 180.0) << std::endl;
 }
