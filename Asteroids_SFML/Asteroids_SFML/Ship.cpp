@@ -7,23 +7,33 @@
 Ship::Ship(sf::RenderWindow& w) {
     window = &w;
 
-    clear = sf::Color(0, 0, 255, 100);
+    clear = sf::Color(0, 0, 0, 0);
     
+    SetupConvexShape();
+
+    SetupSprite();
+
+}
+
+void Ship::SetupConvexShape() {
     ship.setPointCount(3);
-    ship.setPoint(0, sf::Vector2f(shipSize, shipSize/2));
+    ship.setPoint(0, sf::Vector2f(shipSize, shipSize / 2));
     ship.setPoint(1, sf::Vector2f(0, 0));
     ship.setPoint(2, sf::Vector2f(0, shipSize));
-    ship.setOrigin(shipSize/2, shipSize/2);
+    ship.setOrigin(shipSize / 2, shipSize / 2);
     ship.setOutlineColor(sf::Color::White);
     ship.setOutlineThickness(3);
-    position.x = 500;
-    position.y = 500;
     ship.setFillColor(clear);
 
     ship.setRotation(0.f); // rotations in sfml go in clockwise fashion
-    
+
 
     ship.setPosition(shipSize, shipSize);
+}
+
+void Ship::SetupSprite() {
+    position.x = 500;
+    position.y = 500;
 
     texture.create(shipSize * 2, shipSize * 2);
     sprite = sf::Sprite(texture.getTexture());
@@ -35,10 +45,6 @@ Ship::Ship(sf::RenderWindow& w) {
 }
 
 void Ship::Draw() {
-    //texture.clear(clear);
-    //texture.draw(ship);
-    //texture.display();
-    
     
     window->draw(sprite);
 }

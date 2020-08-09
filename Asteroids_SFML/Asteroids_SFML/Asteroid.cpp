@@ -3,12 +3,16 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include "main.h"
+#include "Collision.h"
+#include "Ship.h"
 
-Asteroid::Asteroid(sf::RenderWindow& w) {
+Asteroid::Asteroid(sf::RenderWindow& w, Ship& s) {
 	window = &w;
+	ship = &s;
 
 	SetupConvexShape();
-	
+	SetupSprite();
 
 
 }
@@ -16,15 +20,25 @@ Asteroid::Asteroid(sf::RenderWindow& w) {
 void Asteroid::SetupConvexShape() {
 	SetPolygonPoints();
 
-	clear = sf::Color(255, 0, 0, 50);
+	clear = sf::Color(0, 0, 0, 0);
 
 	asteroid.setOutlineColor(sf::Color::White);
 	asteroid.setOutlineThickness(3);
 	asteroid.setFillColor(clear);
 	asteroid.setOrigin(asteroidSize, asteroidSize);
-	asteroid.setPosition(asteroidSize * 2.5, asteroidSize * 2);
+	asteroid.setPosition(asteroidSize * 2.5, asteroidSize * 2.2);
 
 	
+}
+
+void Asteroid::SetupSprite() {
+	//create texture to hold shape
+	texture.create(asteroidSize * 2.5, asteroidSize * 2.5);
+	texture.clear(clear);
+	texture.draw(asteroid);
+	texture.display();
+
+	sprite = sf::Sprite(texture.getTexture());
 }
 
 void Asteroid::SetPolygonPoints() {
@@ -67,4 +81,15 @@ void Asteroid::Draw() {
 
 void Asteroid::Update(sf::Time dt) {
 	this->deltaTime = dt;
+	CheckShipCollision();
+}
+
+void Asteroid::CheckShipCollision() {
+	if (Collision::BoundingBoxTest(sprite, ship->sprite)) {
+		//std::cout << "Collision - Bounding box!" << std::endl;
+
+		if (Collision::PixelPerfectTest(sprite, ship->sprite)) {
+			std::cout << "Collision - Pixel perfect!" << std::endl;
+		}
+	}
 }

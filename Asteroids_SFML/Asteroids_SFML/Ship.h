@@ -12,7 +12,7 @@ class Ship
 	int shipSize = 30;
 	sf::ConvexShape ship;
 	sf::RenderTexture texture;
-	sf::Sprite sprite;
+	
 
 	sf::Color clear;
 
@@ -33,7 +33,13 @@ class Ship
 	float drag = 50;
 
 public:
+	sf::Sprite sprite;
+
+	Ship();
 	Ship(sf::RenderWindow& w);
+	void SetupConvexShape();
+	void SetupSprite();
+
 	void Draw();
 	void Update(sf::Time dt);
 	void Move();

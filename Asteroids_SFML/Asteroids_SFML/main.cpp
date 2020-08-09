@@ -1,7 +1,10 @@
+#include "main.h"
 #include <SFML/Graphics.hpp>
 #include "Ship.h"
 #include "Asteroid.h"
 #include <iostream>
+
+
 
 int main()
 {
@@ -12,7 +15,7 @@ int main()
     sf::Clock clock;
 
     Ship ship(window);
-    Asteroid asteroid1(window);
+    Asteroid asteroid1(window, ship);
 
     while (window.isOpen())
     {
@@ -30,7 +33,7 @@ int main()
         window.clear();
         ship.Draw();
         asteroid1.Draw();
-        //ship.Draw();
+        asteroid1.Update(deltaTime);
         ship.Update(deltaTime);
         window.display();
 
