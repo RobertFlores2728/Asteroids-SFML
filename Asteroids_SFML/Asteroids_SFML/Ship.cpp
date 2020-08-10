@@ -2,6 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <cmath>
+#include <ctime>
+
+Ship::Ship() {}
 
 
 Ship::Ship(sf::RenderWindow& w) {
@@ -16,37 +19,37 @@ Ship::Ship(sf::RenderWindow& w) {
 }
 
 void Ship::SetupConvexShape() {
-    ship.setPointCount(3);
-    ship.setPoint(0, sf::Vector2f(shipSize, shipSize / 2));
-    ship.setPoint(1, sf::Vector2f(0, 0));
-    ship.setPoint(2, sf::Vector2f(0, shipSize));
-    ship.setOrigin(shipSize / 2, shipSize / 2);
-    ship.setOutlineColor(sf::Color::White);
-    ship.setOutlineThickness(3);
-    ship.setFillColor(clear);
+    shipShape.setPointCount(3);
+    shipShape.setPoint(0, sf::Vector2f(shipSize, shipSize / 2));
+    shipShape.setPoint(1, sf::Vector2f(0, 0));
+    shipShape.setPoint(2, sf::Vector2f(0, shipSize));
+    shipShape.setOrigin(shipSize / 2, shipSize / 2);
+    shipShape.setOutlineColor(sf::Color::White);
+    shipShape.setOutlineThickness(3);
+    shipShape.setFillColor(clear);
 
-    ship.setRotation(0.f); // rotations in sfml go in clockwise fashion
+    shipShape.setRotation(0.f); // rotations in sfml go in clockwise fashion
 
 
-    ship.setPosition(shipSize, shipSize);
+    shipShape.setPosition(shipSize, shipSize);
 }
 
 void Ship::SetupSprite() {
     position.x = 500;
     position.y = 500;
 
-    texture.create(shipSize * 2, shipSize * 2);
-    sprite = sf::Sprite(texture.getTexture());
-    sprite.setPosition(position.x, position.y);
-    sprite.setOrigin((shipSize * 2) / 2, (shipSize * 2) / 2);
-    texture.clear(clear);
-    texture.draw(ship);
-    texture.display();
+    shipTexture.create(shipSize * 2, shipSize * 2);
+    shipSprite = sf::Sprite(shipTexture.getTexture());
+    shipSprite.setPosition(position.x, position.y);
+    shipSprite.setOrigin((shipSize * 2) / 2, (shipSize * 2) / 2);
+    shipTexture.clear(clear);
+    shipTexture.draw(shipShape);
+    shipTexture.display();
 }
 
 void Ship::Draw() {
     
-    window->draw(sprite);
+    window->draw(shipSprite);
 }
 
 void Ship::Update(sf::Time dt) {
@@ -59,17 +62,17 @@ void Ship::Update(sf::Time dt) {
 void Ship::Move() {
     position.x += velocity.x * deltaTime.asSeconds();
     position.y -= velocity.y * deltaTime.asSeconds();
-    sprite.setPosition(position.x, position.y);
+    shipSprite.setPosition(position.x, position.y);
 
     // screen wrapping effect
-    if (sprite.getPosition().x > window->getSize().x)
+    if (shipSprite.getPosition().x > window->getSize().x)
         position.x = 0;
-    else if (sprite.getPosition().x < 0)
+    else if (shipSprite.getPosition().x < 0)
         position.x = window->getSize().x;
 
-    if (sprite.getPosition().y > window->getSize().y)
+    if (shipSprite.getPosition().y > window->getSize().y)
         position.y = 0;
-    else if (sprite.getPosition().y < 0)
+    else if (shipSprite.getPosition().y < 0)
         position.y= window->getSize().y;
 }
 
@@ -82,21 +85,39 @@ void Ship::GetInput() {
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        sprite.setRotation(sprite.getRotation() - (rotationSpeed * deltaTime.asSeconds()));
+        shipSprite.setRotation(shipSprite.getRotation() - (rotationSpeed * deltaTime.asSeconds()));
         PrintRotation();
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        sprite.setRotation(sprite.getRotation() + (rotationSpeed * deltaTime.asSeconds()));
+        shipSprite.setRotation(shipSprite.getRotation() + (rotationSpeed * deltaTime.asSeconds()));
         PrintRotation();
     }
+
+    
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        sf::Time now = shootingClock.getElapsedTime();
+        if (now.asMilliseconds() > shootDelay) {
+            ShootBullet();
+            shootDelay = 1000;
+            shootingClock.restart();
+        }
+
+    }
+    else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        shootDelay = 200;
+    }
+
+    
+
+
 }
 
 void Ship::GetVelocity() {
     if (isThrusting) {
         // determine direction in which ship moves
-        forwardUnitVector.x = std::cos(sprite.getRotation() * 3.141592 / 180.0); //cmath cos and sin functions take in radians but getRotation returns degrees. radians = degrees * pi / 180
-        forwardUnitVector.y = std::sin(sprite.getRotation() * 3.141592 / 180.0);
+        forwardUnitVector.x = std::cos(shipSprite.getRotation() * 3.141592 / 180.0); //cmath cos and sin functions take in radians but getRotation returns degrees. radians = degrees * pi / 180
+        forwardUnitVector.y = std::sin(shipSprite.getRotation() * 3.141592 / 180.0);
 
         // velocity is equal to the thrust power times the unit vector direction of movement
         velocity.x += thrustPower * forwardUnitVector.x * deltaTime.asSeconds();
@@ -130,7 +151,15 @@ void Ship::GetVelocity() {
 }
 
 void Ship::PrintRotation() {
-    std::cout << "Angle: " << sprite.getRotation();
-    std::cout << " Cosine: " << std::cos(sprite.getRotation() * 3.141592 / 180.0);
-    std::cout << " Sine: " << std::sin(sprite.getRotation() * 3.141592 / 180.0) << std::endl;
+    std::cout << "Angle: " << shipSprite.getRotation();
+    std::cout << " Cosine: " << std::cos(shipSprite.getRotation() * 3.141592 / 180.0);
+    std::cout << " Sine: " << std::sin(shipSprite.getRotation() * 3.141592 / 180.0) << std::endl;
+}
+
+
+void Ship::UpdateBullets() {
+    
+}
+void Ship::ShootBullet() {
+    std::cout << "Bullet shot!" << std::endl;
 }

@@ -4,19 +4,19 @@
 
 class Ship
 {
+private:
 	sf::RenderWindow* window;
 
 	sf::Time deltaTime;
 
 	//triangle
 	int shipSize = 30;
-	sf::ConvexShape ship;
-	sf::RenderTexture texture;
+	sf::ConvexShape shipShape;
+	sf::RenderTexture shipTexture;
 	
 
 	sf::Color clear;
 
-	sf::Vector2<float> position;
 
 	float rotationSpeed = 300.f;
 
@@ -32,9 +32,16 @@ class Ship
 
 	float drag = 50;
 
-public:
-	sf::Sprite sprite;
+	//Shooting timer
+	sf::Clock shootingClock;
+	int shootDelay = 0; // in milliseconds
 
+public:
+	sf::Sprite shipSprite;
+
+	sf::Vector2<float> position;
+
+	//Class Functions
 	Ship();
 	Ship(sf::RenderWindow& w);
 	void SetupConvexShape();
@@ -47,5 +54,9 @@ public:
 
 	void PrintRotation();
 	void GetVelocity();
+
+	//Bullets
+	void UpdateBullets();
+	void ShootBullet();
 };
 

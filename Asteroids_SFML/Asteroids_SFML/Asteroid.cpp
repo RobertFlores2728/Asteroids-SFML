@@ -22,23 +22,23 @@ void Asteroid::SetupConvexShape() {
 
 	clear = sf::Color(0, 0, 0, 0);
 
-	asteroid.setOutlineColor(sf::Color::White);
-	asteroid.setOutlineThickness(3);
-	asteroid.setFillColor(clear);
-	asteroid.setOrigin(asteroidSize, asteroidSize);
-	asteroid.setPosition(asteroidSize * 2.5, asteroidSize * 2.2);
+	asteroidShape.setOutlineColor(sf::Color::White);
+	asteroidShape.setOutlineThickness(3);
+	asteroidShape.setFillColor(clear);
+	asteroidShape.setOrigin(asteroidSize, asteroidSize);
+	asteroidShape.setPosition(asteroidSize * 2.5, asteroidSize * 2.2);
 
 	
 }
 
 void Asteroid::SetupSprite() {
 	//create texture to hold shape
-	texture.create(asteroidSize * 2.5, asteroidSize * 2.5);
-	texture.clear(clear);
-	texture.draw(asteroid);
-	texture.display();
+	asteroidTexture.create(asteroidSize * 2.5, asteroidSize * 2.5);
+	asteroidTexture.clear(clear);
+	asteroidTexture.draw(asteroidShape);
+	asteroidTexture.display();
 
-	sprite = sf::Sprite(texture.getTexture());
+	asteroidSprite = sf::Sprite(asteroidTexture.getTexture());
 }
 
 void Asteroid::SetPolygonPoints() {
@@ -47,7 +47,7 @@ void Asteroid::SetPolygonPoints() {
 	int numPoints = 5 + rand() % (3 + 1);
 
 
-	asteroid.setPointCount(numPoints);
+	asteroidShape.setPointCount(numPoints);
 
 	
 	// draw a point every amount of degrees around a circle. 8 sided polygon = 360/8 = 45 degrees per point
@@ -65,7 +65,7 @@ void Asteroid::SetPolygonPoints() {
 		position.y = std::sin(totalAngle * 3.141592 / 180.0) * asteroidSize + offset; // y position of point
 
 		//add the point to the convex shape
-		asteroid.setPoint(i, sf::Vector2f(position.x, -position.y));
+		asteroidShape.setPoint(i, sf::Vector2f(position.x, -position.y));
 
 		totalAngle += degreesPerPoint;
 
@@ -74,8 +74,8 @@ void Asteroid::SetPolygonPoints() {
 
 void Asteroid::Draw() {
 	
-	sprite.setPosition(500, 500);
-	window->draw(sprite);
+	asteroidSprite.setPosition(500, 500);
+	window->draw(asteroidSprite);
 
 }
 
@@ -85,10 +85,10 @@ void Asteroid::Update(sf::Time dt) {
 }
 
 void Asteroid::CheckShipCollision() {
-	if (Collision::BoundingBoxTest(sprite, ship->sprite)) {
+	if (Collision::BoundingBoxTest(asteroidSprite, ship->shipSprite)) {
 		//std::cout << "Collision - Bounding box!" << std::endl;
 
-		if (Collision::PixelPerfectTest(sprite, ship->sprite)) {
+		if (Collision::PixelPerfectTest(asteroidSprite, ship->shipSprite)) {
 			std::cout << "Collision - Pixel perfect!" << std::endl;
 		}
 	}

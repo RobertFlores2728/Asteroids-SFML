@@ -7,13 +7,13 @@ class Asteroid
 {
 	sf::RenderWindow* window;
 
-	sf::RenderTexture texture;
-	sf::Sprite sprite;
+	sf::RenderTexture asteroidTexture;
+	sf::Sprite asteroidSprite;
 	sf::Color clear;
 
 	sf::Time deltaTime;
 
-	sf::ConvexShape asteroid;
+	sf::ConvexShape asteroidShape;
 
 	float asteroidSize = 50.f;
 
