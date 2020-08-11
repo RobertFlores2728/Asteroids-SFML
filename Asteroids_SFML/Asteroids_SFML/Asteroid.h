@@ -9,6 +9,7 @@
 #include "Collision.h"
 #include "Ship.h"
 
+class Ship;
 class Asteroid
 {
 	sf::RenderWindow* window;

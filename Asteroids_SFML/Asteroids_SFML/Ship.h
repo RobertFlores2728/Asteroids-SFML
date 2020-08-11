@@ -5,6 +5,7 @@
 #include <cmath>
 #include "Bullet.h"
 
+class Bullet; // forward declaration fixes linking bugs!
 class Ship
 {
 private:
@@ -42,7 +43,7 @@ private:
 
 public:
 	//Bullets
-	std::vector<Bullet> bullets;
+	std::vector<Bullet*> bullets;
 
 	sf::Sprite shipSprite;
 
@@ -64,7 +65,7 @@ public:
 
 	//Bullets
 	
-	//void UpdateBullets();
+	void UpdateBullets();
 	void ShootBullet();
 	
 };

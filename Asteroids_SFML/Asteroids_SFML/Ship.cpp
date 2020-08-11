@@ -96,7 +96,7 @@ void Ship::GetInput() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         sf::Time now = shootingClock.getElapsedTime();
         if (now.asMilliseconds() > shootDelay) {
-            //ShootBullet();
+            ShootBullet();
             shootDelay = 1000;
             shootingClock.restart();
         }
@@ -154,18 +154,17 @@ void Ship::PrintRotation() {
     std::cout << " Sine: " << std::sin(shipSprite.getRotation() * 3.141592 / 180.0) << std::endl;
 }
 
-/*
+
 void Ship::UpdateBullets() {
     for (int i = 0; i < bullets.size(); i++) {
-        bullets[i].Update(deltaTime);
-        bullets[i].Draw();
+        bullets.at(i)->Update(deltaTime);
+        bullets.at(i)->Draw();
     }
 }
-*/
+
 
 void Ship::ShootBullet() {
     std::cout << "Bullet shot!" << std::endl;
-    Bullet b(*window);
-    //Bullet* b = new Bullet(*window);
-    //bullets.push_back(b);
+    Bullet b(*window, *this);
+    bullets.push_back(&b);
 }

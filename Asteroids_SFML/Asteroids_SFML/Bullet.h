@@ -1,7 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-//#include "Ship.h"
+#include "Ship.h"
+
+//forward decleration
+class Ship;
 
 class Bullet
 {
@@ -27,17 +30,17 @@ private:
 public:
 	sf::Sprite bulletSprite;
 
-	//Ship* ship;
+	Ship* ship;
 
 	Bullet();
-	Bullet(sf::RenderWindow& w);//, Ship& s);
+	Bullet(sf::RenderWindow& w, Ship& s);
 
 	void SetupCircleShape();
-	//void SetupSprite();
+	void SetupSprite();
 
 	void Draw();
 	void Update(sf::Time dt);
-	//void Move();
+	void Move();
 
 
 };

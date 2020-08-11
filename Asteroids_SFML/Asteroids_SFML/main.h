@@ -5,3 +5,6 @@
 #include "Ship.h"
 #include "Asteroid.h"
 
+//forward decleration
+class Ship;
+class Asteroid;

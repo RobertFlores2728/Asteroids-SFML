@@ -2,14 +2,14 @@
 
 Bullet::Bullet() {}
 
-Bullet::Bullet(sf::RenderWindow& w){//, Ship& s) {
+Bullet::Bullet(sf::RenderWindow& w, Ship& s) {
     window = &w;
-    //ship = &s;
+    ship = &s;
 
     clear = sf::Color(0, 0, 0, 0);
 
     SetupCircleShape();
-    //SetupSprite();
+    SetupSprite();
 }
 
 void Bullet::SetupCircleShape() {
@@ -20,7 +20,7 @@ void Bullet::SetupCircleShape() {
 
 }
 
-/*
+
 void Bullet::SetupSprite() {
     position.x = ship->position.x;
     position.y = ship->position.y;
@@ -33,17 +33,18 @@ void Bullet::SetupSprite() {
     bulletTexture.draw(bulletShape);
     bulletTexture.display();
 }
-*/
+
 
 void Bullet::Draw() {
     window->draw(bulletSprite);
 }
 
 void Bullet::Update(sf::Time dt) {
-    //Move();
+    deltaTime = dt;
+    Move();
 }
 
-/*
+
 void Bullet::Move() {
     velocity.x = bulletSpeed * std::cos(ship->shipSprite.getRotation() * 3.141592 / 180.0) * deltaTime.asSeconds();
     velocity.y = bulletSpeed * std::sin(ship->shipSprite.getRotation() * 3.141592 / 180.0) * deltaTime.asSeconds();
@@ -63,4 +64,3 @@ void Bullet::Move() {
     else if (bulletSprite.getPosition().y < 0)
         position.y = window->getSize().y;
 }
-*/
