@@ -1,6 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+#include "main.h"
+#include "Collision.h"
 #include "Ship.h"
 
 class Asteroid

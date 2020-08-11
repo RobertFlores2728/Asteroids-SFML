@@ -1,11 +1,4 @@
 #include "Asteroid.h"
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
-#include "main.h"
-#include "Collision.h"
-#include "Ship.h"
 
 Asteroid::Asteroid(sf::RenderWindow& w, Ship& s) {
 	window = &w;

@@ -1,6 +1,7 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
-#include "Ship.h"
+//#include "Ship.h"
 
 class Bullet
 {
@@ -13,6 +14,7 @@ private:
 	sf::Vector2<float> position;
 
 	sf::Vector2f velocity;
+	float bulletSpeed = 30.0f;
 
 
 	//bullet shape
@@ -20,19 +22,22 @@ private:
 	sf::CircleShape bulletShape;
 	sf::RenderTexture bulletTexture;
 
-	Ship* ship;
+	
 
 public:
 	sf::Sprite bulletSprite;
 
+	//Ship* ship;
+
 	Bullet();
-	Bullet(sf::RenderWindow& w, Ship& s);
+	Bullet(sf::RenderWindow& w);//, Ship& s);
 
 	void SetupCircleShape();
-	void SetupSprite();
+	//void SetupSprite();
 
 	void Draw();
 	void Update(sf::Time dt);
+	//void Move();
 
 
 };

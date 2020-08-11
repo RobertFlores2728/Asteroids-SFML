@@ -1,6 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <cmath>
+#include "Bullet.h"
 
 class Ship
 {
@@ -36,7 +39,11 @@ private:
 	sf::Clock shootingClock;
 	int shootDelay = 0; // in milliseconds
 
+
 public:
+	//Bullets
+	std::vector<Bullet> bullets;
+
 	sf::Sprite shipSprite;
 
 	sf::Vector2<float> position;
@@ -56,7 +63,9 @@ public:
 	void GetVelocity();
 
 	//Bullets
-	void UpdateBullets();
+	
+	//void UpdateBullets();
 	void ShootBullet();
+	
 };
 

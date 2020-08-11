@@ -1,8 +1,8 @@
 #include "main.h"
-#include <SFML/Graphics.hpp>
-#include "Ship.h"
-#include "Asteroid.h"
-#include <iostream>
+//#include <SFML/Graphics.hpp>
+//#include "Ship.h"
+//#include "Asteroid.h"
+
 
 
 
@@ -11,10 +11,14 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!");
     window.setFramerateLimit(120);
 
+    std::vector<Ship*> ships;
+
 
     sf::Clock clock;
 
     Ship ship(window);
+    ships.push_back(&ship);
+    std::cout << "Ship(0): " << ships.at(0) << std::endl;
     Asteroid asteroid1(window, ship);
 
     while (window.isOpen())

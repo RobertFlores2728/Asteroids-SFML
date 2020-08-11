@@ -1,8 +1,5 @@
 #include "Ship.h"
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <cmath>
-#include <ctime>
+
 
 Ship::Ship() {}
 
@@ -57,6 +54,7 @@ void Ship::Update(sf::Time dt) {
     GetInput();
     GetVelocity();
     Move();
+    //UpdateBullets();
 }
 
 void Ship::Move() {
@@ -98,7 +96,7 @@ void Ship::GetInput() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         sf::Time now = shootingClock.getElapsedTime();
         if (now.asMilliseconds() > shootDelay) {
-            ShootBullet();
+            //ShootBullet();
             shootDelay = 1000;
             shootingClock.restart();
         }
@@ -156,10 +154,18 @@ void Ship::PrintRotation() {
     std::cout << " Sine: " << std::sin(shipSprite.getRotation() * 3.141592 / 180.0) << std::endl;
 }
 
-
+/*
 void Ship::UpdateBullets() {
-    
+    for (int i = 0; i < bullets.size(); i++) {
+        bullets[i].Update(deltaTime);
+        bullets[i].Draw();
+    }
 }
+*/
+
 void Ship::ShootBullet() {
     std::cout << "Bullet shot!" << std::endl;
+    Bullet b(*window);
+    //Bullet* b = new Bullet(*window);
+    //bullets.push_back(b);
 }
