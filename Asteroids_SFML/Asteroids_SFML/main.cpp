@@ -18,7 +18,7 @@ int main()
 
     Ship ship(window);
     ships.push_back(&ship);
-    std::cout << "Ship(0): " << ships.at(0) << std::endl;
+    //std::cout << "Ship(0): " << ships.at(0) << std::endl;
     Asteroid asteroid1(window, ship);
 
     while (window.isOpen())

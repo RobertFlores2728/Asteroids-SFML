@@ -54,7 +54,7 @@ void Ship::Update(sf::Time dt) {
     GetInput();
     GetVelocity();
     Move();
-    //UpdateBullets();
+    UpdateBullets();
 }
 
 void Ship::Move() {
@@ -156,15 +156,28 @@ void Ship::PrintRotation() {
 
 
 void Ship::UpdateBullets() {
-    for (int i = 0; i < bullets.size(); i++) {
-        bullets.at(i)->Update(deltaTime);
-        bullets.at(i)->Draw();
+    for (Bullet* bullet : bullets) {
+        bullet->Update(deltaTime);
+        bullet->Draw();
     }
 }
 
 
-void Ship::ShootBullet() {
+void Ship::ShootBullet() { // research dynamic variables and objects
     std::cout << "Bullet shot!" << std::endl;
-    Bullet b(*window, *this);
-    bullets.push_back(&b);
+    Bullet* b = new Bullet(*window, *this);
+    bullets.push_back(b);
+    for (Bullet* bullet : bullets) {
+        std::cout << "Bullet: " << bullet << std::endl;
+    }
+}
+
+void Ship::DespawnBullet(Bullet* b) {
+    std::vector<Bullet*>::iterator index = std::find(bullets.begin(), bullets.end(), b);
+    if (index != bullets.end()) {
+        std::cout << "Despawning bullet!: " << b << std::endl;
+        bullets.erase(index);
+    }
+
+    
 }

@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 #include "Bullet.h"
 
 class Bullet; // forward declaration fixes linking bugs!
@@ -32,7 +33,7 @@ private:
 
 	
 
-	sf::Vector2f forwardUnitVector;
+	
 
 	float drag = 50;
 
@@ -44,6 +45,8 @@ private:
 public:
 	//Bullets
 	std::vector<Bullet*> bullets;
+
+	sf::Vector2f forwardUnitVector;
 
 	sf::Sprite shipSprite;
 
@@ -67,6 +70,8 @@ public:
 	
 	void UpdateBullets();
 	void ShootBullet();
+
+	void DespawnBullet(Bullet* b);
 	
 };
 

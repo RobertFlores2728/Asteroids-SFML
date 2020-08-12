@@ -17,7 +17,8 @@ private:
 	sf::Vector2<float> position;
 
 	sf::Vector2f velocity;
-	float bulletSpeed = 30.0f;
+	float bulletSpeed = 50000.0f;
+	sf::Vector2f forwardUnitVector;
 
 
 	//bullet shape
@@ -25,7 +26,9 @@ private:
 	sf::CircleShape bulletShape;
 	sf::RenderTexture bulletTexture;
 
-	
+	//Bullet life timer
+	sf::Clock bulletClock;
+	int bulletLife = 3; // in seconds
 
 public:
 	sf::Sprite bulletSprite;
@@ -42,6 +45,7 @@ public:
 	void Update(sf::Time dt);
 	void Move();
 
+	void CheckIfLifeOver();
 
 };
 

@@ -8,6 +8,9 @@ Bullet::Bullet(sf::RenderWindow& w, Ship& s) {
 
     clear = sf::Color(0, 0, 0, 0);
 
+    forwardUnitVector.x = std::cos(ship->shipSprite.getRotation() * 3.141592 / 180.0);
+    forwardUnitVector.y = std::sin(ship->shipSprite.getRotation() * 3.141592 / 180.0);
+
     SetupCircleShape();
     SetupSprite();
 }
@@ -42,16 +45,18 @@ void Bullet::Draw() {
 void Bullet::Update(sf::Time dt) {
     deltaTime = dt;
     Move();
+    CheckIfLifeOver();
 }
 
 
 void Bullet::Move() {
-    velocity.x = bulletSpeed * std::cos(ship->shipSprite.getRotation() * 3.141592 / 180.0) * deltaTime.asSeconds();
-    velocity.y = bulletSpeed * std::sin(ship->shipSprite.getRotation() * 3.141592 / 180.0) * deltaTime.asSeconds();
+    velocity.x = bulletSpeed * forwardUnitVector.x * deltaTime.asSeconds();
+    velocity.y = bulletSpeed * -forwardUnitVector.y * deltaTime.asSeconds();
 
     position.x += velocity.x * deltaTime.asSeconds();
     position.y -= velocity.y * deltaTime.asSeconds();
     bulletSprite.setPosition(position.x, position.y);
+    //std::cout << "Position: " << position.x << " " << position.y << std::endl;
 
     // screen wrapping effect
     if (bulletSprite.getPosition().x > window->getSize().x)
@@ -63,4 +68,11 @@ void Bullet::Move() {
         position.y = 0;
     else if (bulletSprite.getPosition().y < 0)
         position.y = window->getSize().y;
+}
+
+void Bullet::CheckIfLifeOver() {
+    if (bulletClock.getElapsedTime().asSeconds() > bulletLife) {
+        ship->DespawnBullet(this);
+        
+    }
 }
