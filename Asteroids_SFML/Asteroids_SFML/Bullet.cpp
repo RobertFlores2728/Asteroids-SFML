@@ -18,6 +18,7 @@ Bullet::Bullet(sf::RenderWindow& w, Ship& s) {
 void Bullet::SetupCircleShape() {
     bulletShape.setRadius(bulletSize);
     bulletShape.setOrigin(bulletSize / 2, bulletSize / 2);
+    bulletShape.setPosition(bulletSize/2, bulletSize/2);
 
     bulletShape.setFillColor(sf::Color::White);
 
@@ -31,7 +32,7 @@ void Bullet::SetupSprite() {
     bulletTexture.create(bulletSize * 2, bulletSize * 2);
     bulletSprite = sf::Sprite(bulletTexture.getTexture());
     bulletSprite.setPosition(position.x, position.y);
-    bulletSprite.setOrigin((bulletSize * 2) / 2, (bulletSize * 2) / 2);
+    bulletSprite.setOrigin(bulletSize , bulletSize);
     bulletTexture.clear(clear);
     bulletTexture.draw(bulletShape);
     bulletTexture.display();

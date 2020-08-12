@@ -75,6 +75,7 @@ void Asteroid::Draw() {
 void Asteroid::Update(sf::Time dt) {
 	this->deltaTime = dt;
 	CheckShipCollision();
+	CheckBulletCollision();
 }
 
 void Asteroid::CheckShipCollision() {
@@ -83,6 +84,19 @@ void Asteroid::CheckShipCollision() {
 
 		if (Collision::PixelPerfectTest(asteroidSprite, ship->shipSprite)) {
 			std::cout << "Collision - Pixel perfect!" << std::endl;
+		}
+	}
+}
+
+void Asteroid::CheckBulletCollision() {
+	for (Bullet* bullet : ship->bullets) {
+		if (Collision::BoundingBoxTest(asteroidSprite, bullet->bulletSprite)) {
+			//std::cout << "Collision - Bounding box!" << std::endl;
+
+			if (Collision::PixelPerfectTest(asteroidSprite, bullet->bulletSprite)) {
+				std::cout << "Collision - Pixel perfect!" << std::endl;
+				ship->DespawnBullet(bullet);
+			}
 		}
 	}
 }

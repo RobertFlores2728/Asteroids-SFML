@@ -22,7 +22,7 @@ private:
 
 
 	//bullet shape
-	int bulletSize = 30;
+	int bulletSize = 5;
 	sf::CircleShape bulletShape;
 	sf::RenderTexture bulletTexture;
 

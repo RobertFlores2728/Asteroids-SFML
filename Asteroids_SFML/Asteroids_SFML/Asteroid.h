@@ -36,5 +36,6 @@ public:
 	void Update(sf::Time deltaTime);
 
 	void CheckShipCollision();
+	void CheckBulletCollision();
 };
 
