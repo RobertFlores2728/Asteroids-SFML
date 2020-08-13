@@ -8,18 +8,20 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!");
+    /*sf::RenderWindow window(sf::VideoMode(1000, 1000), "Asteroids!");
     window.setFramerateLimit(120);
 
     std::vector<Ship*> ships;
+    std::vector<Asteroid*> asteroids;
 
 
-    sf::Clock clock;
+    sf::Clock clock;*/
 
-    Ship ship(window);
-    ships.push_back(&ship);
-    //std::cout << "Ship(0): " << ships.at(0) << std::endl;
-    Asteroid asteroid1(window, ship);
+    //Ship ship(window);
+    //ships.push_back(&ship);
+    
+    //Asteroid asteroid1(window, ship);
+    //asteroids.push_back(&asteroid1);
 
     while (window.isOpen())
     {

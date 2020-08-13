@@ -17,12 +17,12 @@ private:
 	sf::Vector2<float> position;
 
 	sf::Vector2f velocity;
-	float bulletSpeed = 50000.0f;
+	float bulletSpeed = 10 * 10000.0f;
 	sf::Vector2f forwardUnitVector;
 
 
 	//bullet shape
-	int bulletSize = 5;
+	int bulletSize = 3;
 	sf::CircleShape bulletShape;
 	sf::RenderTexture bulletTexture;
 

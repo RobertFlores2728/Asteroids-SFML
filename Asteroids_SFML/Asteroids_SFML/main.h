@@ -2,8 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Ship.h"
-#include "Asteroid.h"
+//#include "Ship.h"
+//#include "Asteroid.h"
 
 //forward decleration
 class Ship;
