@@ -4,7 +4,7 @@
 #include <iostream>
 //#include "Ship.h"
 //#include "Asteroid.h"
+#include "GameManager.h"
 
 //forward decleration
-class Ship;
-class Asteroid;
+class GameManager;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <algorithm>
 #include "Ship.h"
 #include "Asteroid.h"
 
@@ -11,22 +12,25 @@ class Asteroid;
 class GameManager
 {
 public:
-
-
-private:
-	sf::RenderWindow* window;
-	int FPS = 120;
-	sf::Clock* clock;
-
-	std::vector<Ship*> ships;
-	std::vector<Asteroid*> asteroids;
-
-
+	GameManager();
 
 	void SetupGame();
 	void RunGame();
 
 	void UpdateShips();
 	void UpdateAsteroids();
+
+private:
+	//sfml game settings
+	sf::RenderWindow* window;
+	int FPS = 120;
+	sf::Clock* clock;
+	sf::Time deltaTime;
+
+	//game object vectors
+	std::vector<Ship*> ships;
+	std::vector<Asteroid*> asteroids;
+
+	
 };
 

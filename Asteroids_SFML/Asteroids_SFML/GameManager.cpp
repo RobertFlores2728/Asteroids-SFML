@@ -1,8 +1,15 @@
 #include "GameManager.h"
 
+GameManager::GameManager() {
+    SetupGame();
+}
+
+
 void GameManager::SetupGame() {
 	window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "Asteroids!");
 	window->setFramerateLimit(FPS);
+
+    clock = new sf::Clock();
 
 	Ship* ship = new Ship(*window);
 	ships.push_back(ship);
@@ -11,7 +18,7 @@ void GameManager::SetupGame() {
 void GameManager::RunGame() {
     while (window->isOpen())
     {
-        sf::Time deltaTime = clock->getElapsedTime();
+        deltaTime = clock->getElapsedTime();
         clock->restart();
 
 
@@ -23,18 +30,25 @@ void GameManager::RunGame() {
         }
 
         window->clear();
-        ship.Draw();
-        asteroid1.Draw();
-        asteroid1.Update(deltaTime);
-        ship.Update(deltaTime);
-        window.display();
+
+        UpdateShips();
+        //UpdateAsteroids();
+
+        window->display();
 
     }
 }
 
 void GameManager::UpdateShips() {
-    for (Bullet* bullet : bullets) {
-        bullet->Update(deltaTime);
-        bullet->Draw();
+    for (Ship* ship : ships) {
+        ship->Update(deltaTime);
+        ship->Draw();
+    }
+}
+
+void GameManager::UpdateAsteroids() {
+    for (Asteroid* asteroid : asteroids) {
+        asteroid->Update(deltaTime);
+        asteroid->Draw();
     }
 }
