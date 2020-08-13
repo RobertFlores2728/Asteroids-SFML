@@ -30,11 +30,11 @@ class Asteroid
 	//Movement
 	sf::Vector2<float> position;
 	sf::Vector2f velocity;
-	float asteroidSpeed = 1 * 10000.0f;
+	float asteroidSpeed;
 	sf::Vector2f forwardUnitVector;
 
 public:
-	Asteroid(sf::RenderWindow& w, Ship& s);
+	Asteroid(sf::RenderWindow& w, Ship& s, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed);
 	void SetupConvexShape();
 	void SetPolygonPoints();
 	void SetupSprite();

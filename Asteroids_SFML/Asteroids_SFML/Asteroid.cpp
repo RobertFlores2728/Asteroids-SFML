@@ -1,14 +1,17 @@
 #include "Asteroid.h"
 
-Asteroid::Asteroid(sf::RenderWindow& w, Ship& s) {
+Asteroid::Asteroid(sf::RenderWindow& w, Ship& s, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed) {
 	window = &w;
 	ship = &s;
 
 	SetupConvexShape();
 	SetupSprite();
 
-	forwardUnitVector.x = std::cos(ship->shipSprite.getRotation() * 3.141592 / 180.0);
-	forwardUnitVector.y = std::sin(ship->shipSprite.getRotation() * 3.141592 / 180.0);
+	forwardUnitVector = forwardUV;
+
+	position = pos;
+
+	asteroidSpeed = speed;
 }
 
 void Asteroid::SetupConvexShape() {
@@ -37,7 +40,7 @@ void Asteroid::SetupSprite() {
 
 void Asteroid::SetPolygonPoints() {
 	// get random points number to make polygon. pentagon, hexagon, etc.
-	std::srand((int)std::time(0));
+	
 	int numPoints = 5 + rand() % (3 + 1);
 
 

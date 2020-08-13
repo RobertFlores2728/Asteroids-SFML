@@ -14,7 +14,7 @@ void GameManager::SetupGame() {
 	ship = new Ship(*window);
 	ships.push_back(ship);
 
-    SpawnAsteroids(1);
+    SpawnAsteroids(8);
 }
 
 void GameManager::RunGame() {
@@ -56,8 +56,30 @@ void GameManager::UpdateAsteroids() {
 }
 
 void GameManager::SpawnAsteroids(int n) {
+    std::srand((int)std::time(0));
     for (int i = 0; i < n; i++) {
-        Asteroid* a = new Asteroid(*window, *ship);
+        float asteroidSpeed = 1 * 10000.0f;
+        sf::Vector2f forwardUV;
+
+        //direction
+        forwardUV.x = std::cos(45 * (3.141592 / 180.0));
+        forwardUV.y = std::sin(45 * (3.141592 / 180.0));
+
+        //position
+        sf::Vector2<float> position;
+        position.x = 1 + rand() % (window->getSize().x + 0);
+        position.y = 1 + rand() % (window->getSize().y + 0);
+
+
+        //speed
+        float speed = 1 * 10000.0f;
+
+
+        Asteroid* a = new Asteroid(*window, *ship, forwardUV, position, speed);
         asteroids.push_back(a);
+    }
+
+    for (Asteroid* asteroid : asteroids) {
+        std::cout << "Asteroid: " << asteroid << std::endl;
     }
 }
