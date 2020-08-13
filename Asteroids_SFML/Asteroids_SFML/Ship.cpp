@@ -163,7 +163,7 @@ void Ship::UpdateBullets() {
 }
 
 
-void Ship::ShootBullet() { // research dynamic variables and objects
+void Ship::ShootBullet() {
     Bullet* b = new Bullet(*window, *this);
     bullets.push_back(b);
 }

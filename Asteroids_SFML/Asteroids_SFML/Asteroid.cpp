@@ -7,7 +7,8 @@ Asteroid::Asteroid(sf::RenderWindow& w, Ship& s) {
 	SetupConvexShape();
 	SetupSprite();
 
-
+	forwardUnitVector.x = std::cos(ship->shipSprite.getRotation() * 3.141592 / 180.0);
+	forwardUnitVector.y = std::sin(ship->shipSprite.getRotation() * 3.141592 / 180.0);
 }
 
 void Asteroid::SetupConvexShape() {
@@ -67,13 +68,14 @@ void Asteroid::SetPolygonPoints() {
 
 void Asteroid::Draw() {
 	
-	asteroidSprite.setPosition(500, 500);
+	//asteroidSprite.setPosition(500, 500);
 	window->draw(asteroidSprite);
 
 }
 
 void Asteroid::Update(sf::Time dt) {
 	this->deltaTime = dt;
+	Move();
 	CheckShipCollision();
 	CheckBulletCollision();
 }
@@ -99,4 +101,25 @@ void Asteroid::CheckBulletCollision() {
 			}
 		}
 	}
+}
+
+void Asteroid::Move() {
+	velocity.x = asteroidSpeed * forwardUnitVector.x * deltaTime.asSeconds();
+	velocity.y = asteroidSpeed * -forwardUnitVector.y * deltaTime.asSeconds();
+
+	position.x += velocity.x * deltaTime.asSeconds();
+	position.y -= velocity.y * deltaTime.asSeconds();
+	asteroidSprite.setPosition(position.x, position.y);
+	//std::cout << "Position: " << position.x << " " << position.y << std::endl;
+
+	// screen wrapping effect
+	if (asteroidSprite.getPosition().x > window->getSize().x)
+		position.x = 0;
+	else if (asteroidSprite.getPosition().x < 0)
+		position.x = window->getSize().x;
+
+	if (asteroidSprite.getPosition().y > window->getSize().y)
+		position.y = 0;
+	else if (asteroidSprite.getPosition().y < 0)
+		position.y = window->getSize().y;
 }

@@ -26,6 +26,13 @@ class Asteroid
 
 	Ship* ship;
 
+
+	//Movement
+	sf::Vector2<float> position;
+	sf::Vector2f velocity;
+	float asteroidSpeed = 1 * 10000.0f;
+	sf::Vector2f forwardUnitVector;
+
 public:
 	Asteroid(sf::RenderWindow& w, Ship& s);
 	void SetupConvexShape();
@@ -34,6 +41,7 @@ public:
 
 	void Draw();
 	void Update(sf::Time deltaTime);
+	void Move();
 
 	void CheckShipCollision();
 	void CheckBulletCollision();

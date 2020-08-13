@@ -20,6 +20,8 @@ public:
 	void UpdateShips();
 	void UpdateAsteroids();
 
+	void SpawnAsteroids(int n);
+
 private:
 	//sfml game settings
 	sf::RenderWindow* window;
@@ -27,6 +29,7 @@ private:
 	sf::Clock* clock;
 	sf::Time deltaTime;
 
+	Ship* ship;
 	//game object vectors
 	std::vector<Ship*> ships;
 	std::vector<Asteroid*> asteroids;

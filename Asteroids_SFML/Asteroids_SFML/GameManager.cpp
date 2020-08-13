@@ -11,8 +11,10 @@ void GameManager::SetupGame() {
 
     clock = new sf::Clock();
 
-	Ship* ship = new Ship(*window);
+	ship = new Ship(*window);
 	ships.push_back(ship);
+
+    SpawnAsteroids(1);
 }
 
 void GameManager::RunGame() {
@@ -32,7 +34,7 @@ void GameManager::RunGame() {
         window->clear();
 
         UpdateShips();
-        //UpdateAsteroids();
+        UpdateAsteroids();
 
         window->display();
 
@@ -50,5 +52,12 @@ void GameManager::UpdateAsteroids() {
     for (Asteroid* asteroid : asteroids) {
         asteroid->Update(deltaTime);
         asteroid->Draw();
+    }
+}
+
+void GameManager::SpawnAsteroids(int n) {
+    for (int i = 0; i < n; i++) {
+        Asteroid* a = new Asteroid(*window, *ship);
+        asteroids.push_back(a);
     }
 }
