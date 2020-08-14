@@ -94,7 +94,7 @@ void Asteroid::CheckShipCollision() {
 }
 
 void Asteroid::CheckBulletCollision() {
-	for (Bullet* bullet : ship->bullets) {
+	for (std::shared_ptr<Bullet> bullet : ship->bullets) {
 		if (Collision::BoundingBoxTest(asteroidSprite, bullet->bulletSprite)) {
 			//std::cout << "Collision - Bounding box!" << std::endl;
 

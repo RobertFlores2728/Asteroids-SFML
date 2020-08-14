@@ -156,21 +156,27 @@ void Ship::PrintRotation() {
 
 
 void Ship::UpdateBullets() {
-    for (Bullet* bullet : bullets) {
+    for (std::shared_ptr<Bullet> bullet : bullets) {
         bullet->Update(deltaTime);
         bullet->Draw();
+        if (bullet->CheckIfLifeOver()) {
+            DespawnBullet(bullet);
+        }
     }
 }
 
 
 void Ship::ShootBullet() {
-    Bullet* b = new Bullet(*window, *this);
+    std::shared_ptr<Bullet> b(new Bullet(*window, *this));
     bullets.push_back(b);
+    std::cout << b << std::endl;
 }
 
-void Ship::DespawnBullet(Bullet* b) {
-    std::vector<Bullet*>::iterator index = std::find(bullets.begin(), bullets.end(), b);
-    if (index != bullets.end()) {
-        bullets.erase(index);
+void Ship::DespawnBullet(std::shared_ptr<Bullet> b) {
+    for (int i = 0; i < bullets.size(); i++) {
+        if (b == bullets.at(i)) {
+            std::cout << bullets.at(i) << std::endl;
+            bullets.erase(bullets.begin() + i);
+        }
     }
 }

@@ -11,7 +11,7 @@ void GameManager::SetupGame() {
 
     clock = new sf::Clock();
 
-	ship = new Ship(*window);
+	ship.reset(new Ship(*window));
 	ships.push_back(ship);
 
     SpawnAsteroids(8);
@@ -42,14 +42,14 @@ void GameManager::RunGame() {
 }
 
 void GameManager::UpdateShips() {
-    for (Ship* ship : ships) {
+    for (std::shared_ptr<Ship> ship : ships) {
         ship->Update(deltaTime);
         ship->Draw();
     }
 }
 
 void GameManager::UpdateAsteroids() {
-    for (Asteroid* asteroid : asteroids) {
+    for (std::shared_ptr<Asteroid> asteroid : asteroids) {
         asteroid->Update(deltaTime);
         asteroid->Draw();
     }
@@ -75,11 +75,11 @@ void GameManager::SpawnAsteroids(int n) {
         float speed = 1 * 10000.0f;
 
 
-        Asteroid* a = new Asteroid(*window, *ship, forwardUV, position, speed);
+        std::shared_ptr<Asteroid> a(new Asteroid(*window, *ship, forwardUV, position, speed));
         asteroids.push_back(a);
     }
 
-    for (Asteroid* asteroid : asteroids) {
+    for (std::shared_ptr<Asteroid> asteroid : asteroids) {
         std::cout << "Asteroid: " << asteroid << std::endl;
     }
 }

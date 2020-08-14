@@ -13,5 +13,8 @@ int main()
 
     gm.RunGame();
 
+    delete gm.window;
+    delete gm.clock;
+
     return 0;
 }

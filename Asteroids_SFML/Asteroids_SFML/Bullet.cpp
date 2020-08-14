@@ -71,9 +71,9 @@ void Bullet::Move() {
         position.y = window->getSize().y;
 }
 
-void Bullet::CheckIfLifeOver() {
+bool Bullet::CheckIfLifeOver() {
     if (bulletClock.getElapsedTime().asSeconds() > bulletLife) {
-        ship->DespawnBullet(this);
-        
+        return true;
     }
+    return false;
 }

@@ -44,7 +44,7 @@ private:
 
 public:
 	//Bullets
-	std::vector<Bullet*> bullets;
+	std::vector < std::shared_ptr<Bullet> > bullets;
 
 	sf::Vector2f forwardUnitVector;
 
@@ -71,7 +71,7 @@ public:
 	void UpdateBullets();
 	void ShootBullet();
 
-	void DespawnBullet(Bullet* b);
+	void DespawnBullet(std::shared_ptr<Bullet> b);
 	
 };
 

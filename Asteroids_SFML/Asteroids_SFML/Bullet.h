@@ -45,7 +45,7 @@ public:
 	void Update(sf::Time dt);
 	void Move();
 
-	void CheckIfLifeOver();
+	bool CheckIfLifeOver();
 
 };
 

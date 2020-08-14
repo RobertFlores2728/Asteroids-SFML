@@ -22,17 +22,21 @@ public:
 
 	void SpawnAsteroids(int n);
 
+	sf::RenderWindow* window;
+	sf::Clock* clock;
+
 private:
 	//sfml game settings
-	sf::RenderWindow* window;
+	
 	int FPS = 120;
-	sf::Clock* clock;
+	
 	sf::Time deltaTime;
 
-	Ship* ship;
+	std::shared_ptr<Ship> ship;
 	//game object vectors
-	std::vector<Ship*> ships;
-	std::vector<Asteroid*> asteroids;
+	std::vector< std::shared_ptr<Ship> > ships;
+	
+	std::vector< std::shared_ptr<Asteroid> > asteroids;
 
 	
 };
