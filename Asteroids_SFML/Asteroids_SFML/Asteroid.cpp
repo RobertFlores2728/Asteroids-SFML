@@ -1,8 +1,8 @@
 #include "Asteroid.h"
 
-Asteroid::Asteroid(sf::RenderWindow& w, Ship& s, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed) {
-	window = &w;
-	ship = &s;
+Asteroid::Asteroid(GameManager& gameManager, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed) {
+
+	gm = &gameManager;
 
 	SetupConvexShape();
 	SetupSprite();
@@ -72,7 +72,7 @@ void Asteroid::SetPolygonPoints() {
 void Asteroid::Draw() {
 	
 	//asteroidSprite.setPosition(500, 500);
-	window->draw(asteroidSprite);
+	gm->window->draw(asteroidSprite);
 
 }
 
@@ -84,23 +84,23 @@ void Asteroid::Update(sf::Time dt) {
 }
 
 void Asteroid::CheckShipCollision() {
-	if (Collision::BoundingBoxTest(asteroidSprite, ship->shipSprite)) {
+	if (Collision::BoundingBoxTest(asteroidSprite, gm->ship->shipSprite)) {
 		//std::cout << "Collision - Bounding box!" << std::endl;
 
-		if (Collision::PixelPerfectTest(asteroidSprite, ship->shipSprite)) {
+		if (Collision::PixelPerfectTest(asteroidSprite, gm->ship->shipSprite)) {
 			std::cout << "Collision - Pixel perfect!" << std::endl;
 		}
 	}
 }
 
 void Asteroid::CheckBulletCollision() {
-	for (std::shared_ptr<Bullet> bullet : ship->bullets) {
+	for (std::shared_ptr<Bullet> bullet : gm->ship->bullets) {
 		if (Collision::BoundingBoxTest(asteroidSprite, bullet->bulletSprite)) {
 			//std::cout << "Collision - Bounding box!" << std::endl;
 
 			if (Collision::PixelPerfectTest(asteroidSprite, bullet->bulletSprite)) {
 				std::cout << "Collision - Pixel perfect!" << std::endl;
-				ship->DespawnBullet(bullet);
+				gm->ship->DespawnBullet(bullet);
 			}
 		}
 	}
@@ -116,13 +116,13 @@ void Asteroid::Move() {
 	//std::cout << "Position: " << position.x << " " << position.y << std::endl;
 
 	// screen wrapping effect
-	if (asteroidSprite.getPosition().x > window->getSize().x)
+	if (asteroidSprite.getPosition().x > gm->window->getSize().x)
 		position.x = 0;
 	else if (asteroidSprite.getPosition().x < 0)
-		position.x = window->getSize().x;
+		position.x = gm->window->getSize().x;
 
-	if (asteroidSprite.getPosition().y > window->getSize().y)
+	if (asteroidSprite.getPosition().y > gm->window->getSize().y)
 		position.y = 0;
 	else if (asteroidSprite.getPosition().y < 0)
-		position.y = window->getSize().y;
+		position.y = gm->window->getSize().y;
 }

@@ -3,13 +3,15 @@
 #include <SFML/Graphics.hpp>
 #include "Ship.h"
 
-//forward decleration
+//forward declaration
 class Ship;
 
 class Bullet
 {
 private:
-	sf::RenderWindow* window;
+
+	GameManager* gm;
+	
 	sf::Time deltaTime;
 
 	sf::Color clear;
@@ -33,10 +35,10 @@ private:
 public:
 	sf::Sprite bulletSprite;
 
-	Ship* ship;
+	
 
 	Bullet();
-	Bullet(sf::RenderWindow& w, Ship& s);
+	Bullet(GameManager& gameManager);
 
 	void SetupCircleShape();
 	void SetupSprite();

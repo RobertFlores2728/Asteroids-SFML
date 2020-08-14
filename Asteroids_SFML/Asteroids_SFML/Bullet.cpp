@@ -2,14 +2,15 @@
 
 Bullet::Bullet() {}
 
-Bullet::Bullet(sf::RenderWindow& w, Ship& s) {
-    window = &w;
-    ship = &s;
+Bullet::Bullet(GameManager &gameManager) {
+
+    gm = &gameManager;
+
 
     clear = sf::Color(0, 0, 0, 0);
 
-    forwardUnitVector.x = std::cos(ship->shipSprite.getRotation() * 3.141592 / 180.0);
-    forwardUnitVector.y = std::sin(ship->shipSprite.getRotation() * 3.141592 / 180.0);
+    forwardUnitVector.x = std::cos(gm->ship->shipSprite.getRotation() * 3.141592 / 180.0);
+    forwardUnitVector.y = std::sin(gm->ship->shipSprite.getRotation() * 3.141592 / 180.0);
 
     SetupCircleShape();
     SetupSprite();

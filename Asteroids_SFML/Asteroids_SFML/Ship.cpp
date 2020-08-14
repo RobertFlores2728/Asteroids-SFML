@@ -4,8 +4,8 @@
 Ship::Ship() {}
 
 
-Ship::Ship(sf::RenderWindow& w) {
-    window = &w;
+Ship::Ship(GameManager& gameManager) {
+    gm = &gameManager;
 
     clear = sf::Color(0, 0, 0, 0);
     
@@ -46,7 +46,7 @@ void Ship::SetupSprite() {
 
 void Ship::Draw() {
     
-    window->draw(shipSprite);
+    gm->window->draw(shipSprite);
 }
 
 void Ship::Update(sf::Time dt) {
@@ -63,15 +63,15 @@ void Ship::Move() {
     shipSprite.setPosition(position.x, position.y);
 
     // screen wrapping effect
-    if (shipSprite.getPosition().x > window->getSize().x)
+    if (shipSprite.getPosition().x > gm->window->getSize().x)
         position.x = 0;
     else if (shipSprite.getPosition().x < 0)
-        position.x = window->getSize().x;
+        position.x = gm->window->getSize().x;
 
-    if (shipSprite.getPosition().y > window->getSize().y)
+    if (shipSprite.getPosition().y > gm->window->getSize().y)
         position.y = 0;
     else if (shipSprite.getPosition().y < 0)
-        position.y= window->getSize().y;
+        position.y= gm->window->getSize().y;
 }
 
 void Ship::GetInput() {

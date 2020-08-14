@@ -10,9 +10,10 @@
 #include "Ship.h"
 
 class Ship;
+class GameManager;
 class Asteroid
 {
-	sf::RenderWindow* window;
+	GameManager* gm;
 
 	sf::RenderTexture asteroidTexture;
 	sf::Sprite asteroidSprite;
@@ -24,7 +25,7 @@ class Asteroid
 
 	float asteroidSize = 50.f;
 
-	Ship* ship;
+	
 
 
 	//Movement
@@ -34,7 +35,7 @@ class Asteroid
 	sf::Vector2f forwardUnitVector;
 
 public:
-	Asteroid(sf::RenderWindow& w, Ship& s, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed);
+	Asteroid(GameManager& gameManager, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed);
 	void SetupConvexShape();
 	void SetPolygonPoints();
 	void SetupSprite();

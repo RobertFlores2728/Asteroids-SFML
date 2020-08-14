@@ -6,10 +6,10 @@ GameManager::GameManager() {
 
 
 void GameManager::SetupGame() {
-	window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "Asteroids!");
+	window.reset(new sf::RenderWindow(sf::VideoMode(1000, 1000), "Asteroids!"));
 	window->setFramerateLimit(FPS);
 
-    clock = new sf::Clock();
+    clock.reset(new sf::Clock());
 
 	ship.reset(new Ship(*window));
 	ships.push_back(ship);
@@ -75,7 +75,7 @@ void GameManager::SpawnAsteroids(int n) {
         float speed = 1 * 10000.0f;
 
 
-        std::shared_ptr<Asteroid> a(new Asteroid(*window, *ship, forwardUV, position, speed));
+        std::shared_ptr<Asteroid> a(new Asteroid(*this, forwardUV, position, speed));
         asteroids.push_back(a);
     }
 

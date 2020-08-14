@@ -5,12 +5,14 @@
 #include <cmath>
 #include <algorithm>
 #include "Bullet.h"
+#include "main.h"
 
 class Bullet; // forward declaration fixes linking bugs!
+class GameManager;
 class Ship
 {
 private:
-	sf::RenderWindow* window;
+	GameManager* gm;
 
 	sf::Time deltaTime;
 
@@ -54,7 +56,7 @@ public:
 
 	//Class Functions
 	Ship();
-	Ship(sf::RenderWindow& w);
+	Ship(GameManager& gameManager);
 	void SetupConvexShape();
 	void SetupSprite();
 
