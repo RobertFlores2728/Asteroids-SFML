@@ -11,10 +11,10 @@ void GameManager::SetupGame() {
 
     clock.reset(new sf::Clock());
 
-	ship.reset(new Ship(*window));
+	ship.reset(new Ship(*this));
 	ships.push_back(ship);
 
-    SpawnAsteroids(8);
+    //SpawnAsteroids(8);
 }
 
 void GameManager::RunGame() {
@@ -35,6 +35,7 @@ void GameManager::RunGame() {
 
         UpdateShips();
         UpdateAsteroids();
+        UpdateBullets();
 
         window->display();
 
@@ -82,4 +83,46 @@ void GameManager::SpawnAsteroids(int n) {
     for (std::shared_ptr<Asteroid> asteroid : asteroids) {
         std::cout << "Asteroid: " << asteroid << std::endl;
     }
+}
+
+
+
+//bullet
+void GameManager::UpdateBullets() {
+    for (std::shared_ptr<Bullet> bullet : bullets) {
+        bullet->Update(deltaTime);
+        bullet->Draw();
+        if (bullet->CheckIfLifeOver()) {
+            DespawnBullet(bullet);
+        }
+    }
+}
+
+
+void GameManager::ShootBullet() {
+    std::shared_ptr<Bullet> b(new Bullet(*this));
+    bullets.push_back(b);
+
+    PrintBullets();
+}
+
+void GameManager::DespawnBullet(std::shared_ptr<Bullet> b) {
+    for (int i = 0; i < bullets.size(); i++) {
+        if (b == bullets.at(i)) {
+            std::cout << "Removed Bullet: " << bullets.at(i) << " at index: " << i << std::endl;
+            bullets.erase(bullets.begin() + i);
+        }
+    }
+
+    PrintBullets();
+}
+
+void GameManager::PrintBullets() {
+    //print bullets
+    std::cout << "Bullets:" << std::endl;
+    for (std::shared_ptr<Bullet> bullet : bullets) {
+        std::cout << bullet << std::endl;
+    }
+
+    std::cout << std::endl;
 }

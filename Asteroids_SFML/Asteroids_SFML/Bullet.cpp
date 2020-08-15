@@ -27,8 +27,8 @@ void Bullet::SetupCircleShape() {
 
 
 void Bullet::SetupSprite() {
-    position.x = ship->position.x;
-    position.y = ship->position.y;
+    position.x = gm->ship->position.x;
+    position.y = gm->ship->position.y;
 
     bulletTexture.create(bulletSize * 2, bulletSize * 2);
     bulletSprite = sf::Sprite(bulletTexture.getTexture());
@@ -41,7 +41,7 @@ void Bullet::SetupSprite() {
 
 
 void Bullet::Draw() {
-    window->draw(bulletSprite);
+    gm->window->draw(bulletSprite);
 }
 
 void Bullet::Update(sf::Time dt) {
@@ -61,15 +61,15 @@ void Bullet::Move() {
     //std::cout << "Position: " << position.x << " " << position.y << std::endl;
 
     // screen wrapping effect
-    if (bulletSprite.getPosition().x > window->getSize().x)
+    if (bulletSprite.getPosition().x > gm->window->getSize().x)
         position.x = 0;
     else if (bulletSprite.getPosition().x < 0)
-        position.x = window->getSize().x;
+        position.x = gm->window->getSize().x;
 
-    if (bulletSprite.getPosition().y > window->getSize().y)
+    if (bulletSprite.getPosition().y > gm->window->getSize().y)
         position.y = 0;
     else if (bulletSprite.getPosition().y < 0)
-        position.y = window->getSize().y;
+        position.y = gm->window->getSize().y;
 }
 
 bool Bullet::CheckIfLifeOver() {

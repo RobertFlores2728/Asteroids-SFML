@@ -54,7 +54,6 @@ void Ship::Update(sf::Time dt) {
     GetInput();
     GetVelocity();
     Move();
-    UpdateBullets();
 }
 
 void Ship::Move() {
@@ -84,19 +83,19 @@ void Ship::GetInput() {
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         shipSprite.setRotation(shipSprite.getRotation() - (rotationSpeed * deltaTime.asSeconds()));
-        PrintRotation();
+        //PrintRotation();
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         shipSprite.setRotation(shipSprite.getRotation() + (rotationSpeed * deltaTime.asSeconds()));
-        PrintRotation();
+        //PrintRotation();
     }
 
     
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         sf::Time now = shootingClock.getElapsedTime();
         if (now.asMilliseconds() > shootDelay) {
-            ShootBullet();
+            gm->ShootBullet();
             shootDelay = 1000;
             shootingClock.restart();
         }
@@ -155,28 +154,4 @@ void Ship::PrintRotation() {
 }
 
 
-void Ship::UpdateBullets() {
-    for (std::shared_ptr<Bullet> bullet : bullets) {
-        bullet->Update(deltaTime);
-        bullet->Draw();
-        if (bullet->CheckIfLifeOver()) {
-            DespawnBullet(bullet);
-        }
-    }
-}
 
-
-void Ship::ShootBullet() {
-    std::shared_ptr<Bullet> b(new Bullet(*window, *this));
-    bullets.push_back(b);
-    std::cout << b << std::endl;
-}
-
-void Ship::DespawnBullet(std::shared_ptr<Bullet> b) {
-    for (int i = 0; i < bullets.size(); i++) {
-        if (b == bullets.at(i)) {
-            std::cout << bullets.at(i) << std::endl;
-            bullets.erase(bullets.begin() + i);
-        }
-    }
-}

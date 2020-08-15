@@ -8,6 +8,7 @@
 //forward decleration
 class Ship;
 class Asteroid;
+class Bullet;
 
 class GameManager
 {
@@ -18,9 +19,16 @@ public:
 	void RunGame();
 
 	void UpdateShips();
-	void UpdateAsteroids();
 
+	//asteroid
+	void UpdateAsteroids();
 	void SpawnAsteroids(int n);
+
+	//bullet
+	void UpdateBullets();
+	void ShootBullet();
+	void DespawnBullet(std::shared_ptr<Bullet> b);
+	void PrintBullets();
 
 	std::shared_ptr<sf::RenderWindow> window;
 	std::shared_ptr<sf::Clock> clock;
@@ -28,6 +36,8 @@ public:
 	std::shared_ptr<Ship> ship;
 	//game object vectors
 	std::vector< std::shared_ptr<Ship> > ships;
+
+	std::vector < std::shared_ptr<Bullet> > bullets;
 
 	std::vector< std::shared_ptr<Asteroid> > asteroids;
 

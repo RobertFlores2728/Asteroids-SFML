@@ -45,8 +45,6 @@ private:
 
 
 public:
-	//Bullets
-	std::vector < std::shared_ptr<Bullet> > bullets;
 
 	sf::Vector2f forwardUnitVector;
 
@@ -68,12 +66,7 @@ public:
 	void PrintRotation();
 	void GetVelocity();
 
-	//Bullets
 	
-	void UpdateBullets();
-	void ShootBullet();
-
-	void DespawnBullet(std::shared_ptr<Bullet> b);
 	
 };
 

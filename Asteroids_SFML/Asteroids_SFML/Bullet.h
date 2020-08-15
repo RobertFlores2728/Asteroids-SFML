@@ -5,6 +5,7 @@
 
 //forward declaration
 class Ship;
+class GameManager;
 
 class Bullet
 {
@@ -30,7 +31,7 @@ private:
 
 	//Bullet life timer
 	sf::Clock bulletClock;
-	int bulletLife = 3; // in seconds
+	int bulletLife = 1; // in seconds
 
 public:
 	sf::Sprite bulletSprite;
