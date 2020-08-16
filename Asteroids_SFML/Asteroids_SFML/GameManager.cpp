@@ -5,6 +5,18 @@ GameManager::GameManager() {
 }
 
 
+void GameManager::GetInput() {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+        std::cout << "P pressed!" << std::endl;
+        RemoveLastBullet();
+    }
+
+
+
+
+}
+
+
 void GameManager::SetupGame() {
 	window.reset(new sf::RenderWindow(sf::VideoMode(1000, 1000), "Asteroids!"));
 	window->setFramerateLimit(FPS);
@@ -33,6 +45,7 @@ void GameManager::RunGame() {
 
         window->clear();
 
+        GetInput();
         UpdateShips();
         UpdateAsteroids();
         UpdateBullets();
@@ -90,11 +103,21 @@ void GameManager::SpawnAsteroids(int n) {
 //bullet
 void GameManager::UpdateBullets() {
     for (std::shared_ptr<Bullet> bullet : bullets) {
+
+        if (bullet == nullptr) // fixed the error!
+            continue;
+
         bullet->Update(deltaTime);
-        bullet->Draw();
+
         if (bullet->CheckIfLifeOver()) {
             DespawnBullet(bullet);
+            continue;
         }
+
+        bullet->Draw();
+
+        
+        
     }
 }
 
@@ -107,14 +130,32 @@ void GameManager::ShootBullet() {
 }
 
 void GameManager::DespawnBullet(std::shared_ptr<Bullet> b) {
+
+    if (bullets.empty())
+        return;
+    
+
+    
     for (int i = 0; i < bullets.size(); i++) {
-        if (b == bullets.at(i)) {
-            std::cout << "Removed Bullet: " << bullets.at(i) << " at index: " << i << std::endl;
+        if (b == bullets.at(i)) { // address for zero is always the same, thats why there is a bug here
+            std::cout << "Removing Bullet: " << bullets.at(i) << " at index: " << i << std::endl;
             bullets.erase(bullets.begin() + i);
         }
     }
+    
+    
 
     PrintBullets();
+}
+
+void GameManager::RemoveLastBullet() {
+    if (!bullets.empty())
+    {
+        //bullets.pop_back();
+        //bullets.erase(bullets.begin());
+        bullets.erase(bullets.begin() + 0);
+        
+    }
 }
 
 void GameManager::PrintBullets() {

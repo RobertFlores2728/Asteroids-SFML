@@ -15,6 +15,9 @@ class GameManager
 public:
 	GameManager();
 
+	//game manager input
+	void GetInput();
+
 	void SetupGame();
 	void RunGame();
 
@@ -28,6 +31,7 @@ public:
 	void UpdateBullets();
 	void ShootBullet();
 	void DespawnBullet(std::shared_ptr<Bullet> b);
+	void RemoveLastBullet();
 	void PrintBullets();
 
 	std::shared_ptr<sf::RenderWindow> window;

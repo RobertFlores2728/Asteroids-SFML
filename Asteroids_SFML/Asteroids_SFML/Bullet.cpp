@@ -47,7 +47,6 @@ void Bullet::Draw() {
 void Bullet::Update(sf::Time dt) {
     deltaTime = dt;
     Move();
-    CheckIfLifeOver();
 }
 
 
