@@ -31,7 +31,7 @@ private:
 
 	//Bullet life timer
 	sf::Clock bulletClock;
-	int bulletLife = 1; // in seconds
+	int bulletLife = 3; // in seconds
 
 public:
 	sf::Sprite bulletSprite;

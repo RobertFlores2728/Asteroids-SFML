@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <algorithm>
+#include <cmath>
 #include "Ship.h"
 #include "Asteroid.h"
 

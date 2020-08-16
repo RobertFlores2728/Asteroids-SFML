@@ -95,11 +95,15 @@ void Asteroid::CheckShipCollision() {
 
 void Asteroid::CheckBulletCollision() {
 	for (std::shared_ptr<Bullet> bullet : gm->bullets) {
+
+		if (bullet == nullptr)
+			continue;
+
 		if (Collision::BoundingBoxTest(asteroidSprite, bullet->bulletSprite)) {
 			//std::cout << "Collision - Bounding box!" << std::endl;
 
 			if (Collision::PixelPerfectTest(asteroidSprite, bullet->bulletSprite)) {
-				std::cout << "Collision - Pixel perfect!" << std::endl;
+				//std::cout << "Collision - Pixel perfect!" << std::endl;
 				gm->DespawnBullet(bullet);
 			}
 		}

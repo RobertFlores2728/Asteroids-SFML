@@ -26,7 +26,7 @@ void GameManager::SetupGame() {
 	ship.reset(new Ship(*this));
 	ships.push_back(ship);
 
-    //SpawnAsteroids(8);
+    SpawnAsteroids(8);
 }
 
 void GameManager::RunGame() {
@@ -64,6 +64,10 @@ void GameManager::UpdateShips() {
 
 void GameManager::UpdateAsteroids() {
     for (std::shared_ptr<Asteroid> asteroid : asteroids) {
+
+        if (asteroid == nullptr) // fixed the error!
+            continue;
+
         asteroid->Update(deltaTime);
         asteroid->Draw();
     }
@@ -75,14 +79,29 @@ void GameManager::SpawnAsteroids(int n) {
         float asteroidSpeed = 1 * 10000.0f;
         sf::Vector2f forwardUV;
 
-        //direction
-        forwardUV.x = std::cos(45 * (3.141592 / 180.0));
-        forwardUV.y = std::sin(45 * (3.141592 / 180.0));
 
         //position
         sf::Vector2<float> position;
-        position.x = 1 + rand() % (window->getSize().x + 0);
-        position.y = 1 + rand() % (window->getSize().y + 0);
+        float positionsDifferenceMagnitude = 0;
+        while (positionsDifferenceMagnitude < 600.0f) {
+            //position
+            position.x = 1 + rand() % (window->getSize().x + 0);
+            position.y = 1 + rand() % (window->getSize().y + 0);
+
+            sf::Vector2<float> positionsDifference;
+            positionsDifference.x = position.x - ship->position.x;
+            positionsDifference.y = position.y - ship->position.y;
+
+            positionsDifferenceMagnitude = std::sqrtf(std::powf(positionsDifference.x, 2) + std::powf(positionsDifference.y, 2));
+        }
+        std::cout << "asteroid-ship distance magnitude: " << positionsDifferenceMagnitude << std::endl;
+
+
+        //direction
+        float angle = 1 + rand() % (358 + 1);
+        forwardUV.x = std::cos(angle * (3.141592 / 180.0));
+        forwardUV.y = std::sin(angle * (3.141592 / 180.0));
+
 
 
         //speed
@@ -93,9 +112,7 @@ void GameManager::SpawnAsteroids(int n) {
         asteroids.push_back(a);
     }
 
-    for (std::shared_ptr<Asteroid> asteroid : asteroids) {
-        std::cout << "Asteroid: " << asteroid << std::endl;
-    }
+    
 }
 
 
