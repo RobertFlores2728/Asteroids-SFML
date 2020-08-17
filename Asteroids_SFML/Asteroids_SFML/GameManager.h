@@ -35,6 +35,12 @@ public:
 	void RemoveLastBullet();
 	void PrintBullets();
 
+	//collision
+	void CheckCollisions();
+	void CheckShipAsteroidCollision();
+	void CheckBulletAsteroidCollision();
+
+
 	std::shared_ptr<sf::RenderWindow> window;
 	std::shared_ptr<sf::Clock> clock;
 

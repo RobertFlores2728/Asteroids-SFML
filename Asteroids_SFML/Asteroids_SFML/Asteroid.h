@@ -16,7 +16,6 @@ class Asteroid
 	GameManager* gm;
 
 	sf::RenderTexture asteroidTexture;
-	sf::Sprite asteroidSprite;
 	sf::Color clear;
 
 	sf::Time deltaTime;
@@ -35,6 +34,9 @@ class Asteroid
 	sf::Vector2f forwardUnitVector;
 
 public:
+
+	sf::Sprite asteroidSprite;
+
 	Asteroid(GameManager& gameManager, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed);
 	void SetupConvexShape();
 	void SetPolygonPoints();
@@ -44,7 +46,6 @@ public:
 	void Update(sf::Time deltaTime);
 	void Move();
 
-	void CheckShipCollision();
-	void CheckBulletCollision();
+	
 };
 

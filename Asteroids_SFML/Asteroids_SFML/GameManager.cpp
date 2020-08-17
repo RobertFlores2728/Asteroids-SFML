@@ -49,6 +49,7 @@ void GameManager::RunGame() {
         UpdateShips();
         UpdateAsteroids();
         UpdateBullets();
+        CheckCollisions();
 
         window->display();
 
@@ -183,4 +184,52 @@ void GameManager::PrintBullets() {
     }
 
     std::cout << std::endl;
+}
+
+
+
+
+//COLLISION
+void GameManager::CheckCollisions() {
+    CheckShipAsteroidCollision();
+    CheckBulletAsteroidCollision();
+}
+
+void GameManager::CheckShipAsteroidCollision() {
+    for (std::shared_ptr<Asteroid> asteroid : asteroids) {
+
+        if (asteroid == nullptr)
+            continue;
+
+        if (Collision::BoundingBoxTest(asteroid->asteroidSprite, ship->shipSprite)) {
+            //std::cout << "Collision - Bounding box!" << std::endl;
+
+            if (Collision::PixelPerfectTest(asteroid->asteroidSprite, ship->shipSprite)) {
+                //std::cout << "Collision - Pixel perfect!" << std::endl;
+            }
+        }
+    }
+}
+
+void GameManager::CheckBulletAsteroidCollision() {
+    for (std::shared_ptr<Bullet> bullet : bullets) {
+
+        if (bullet == nullptr)
+            continue;
+
+        for (std::shared_ptr<Asteroid> asteroid : asteroids) {
+
+            if (asteroid == nullptr)
+                continue;
+
+            if (Collision::BoundingBoxTest(asteroid->asteroidSprite, bullet->bulletSprite)) {
+                //std::cout << "Collision - Bounding box!" << std::endl;
+
+                if (Collision::PixelPerfectTest(asteroid->asteroidSprite, bullet->bulletSprite)) {
+                    //std::cout << "Collision - Pixel perfect!" << std::endl;
+                    DespawnBullet(bullet);
+                }
+            }
+        }
+    }
 }

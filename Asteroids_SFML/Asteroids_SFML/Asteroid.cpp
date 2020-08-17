@@ -79,36 +79,9 @@ void Asteroid::Draw() {
 void Asteroid::Update(sf::Time dt) {
 	this->deltaTime = dt;
 	Move();
-	CheckShipCollision();
-	CheckBulletCollision();
 }
 
-void Asteroid::CheckShipCollision() {
-	if (Collision::BoundingBoxTest(asteroidSprite, gm->ship->shipSprite)) {
-		//std::cout << "Collision - Bounding box!" << std::endl;
 
-		if (Collision::PixelPerfectTest(asteroidSprite, gm->ship->shipSprite)) {
-			std::cout << "Collision - Pixel perfect!" << std::endl;
-		}
-	}
-}
-
-void Asteroid::CheckBulletCollision() {
-	for (std::shared_ptr<Bullet> bullet : gm->bullets) {
-
-		if (bullet == nullptr)
-			continue;
-
-		if (Collision::BoundingBoxTest(asteroidSprite, bullet->bulletSprite)) {
-			//std::cout << "Collision - Bounding box!" << std::endl;
-
-			if (Collision::PixelPerfectTest(asteroidSprite, bullet->bulletSprite)) {
-				//std::cout << "Collision - Pixel perfect!" << std::endl;
-				gm->DespawnBullet(bullet);
-			}
-		}
-	}
-}
 
 void Asteroid::Move() {
 	velocity.x = asteroidSpeed * forwardUnitVector.x * deltaTime.asSeconds();
