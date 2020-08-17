@@ -2,6 +2,7 @@
 
 GameManager::GameManager() {
     SetupGame();
+    SetupScore();
 }
 
 
@@ -50,6 +51,8 @@ void GameManager::RunGame() {
         UpdateAsteroids();
         UpdateBullets();
         CheckCollisions();
+
+        DrawScore();
 
         window->display();
 
@@ -232,4 +235,25 @@ void GameManager::CheckBulletAsteroidCollision() {
             }
         }
     }
+}
+
+
+
+//SCORE
+void GameManager::SetupScore() {
+    
+
+    font.loadFromFile("res/Boba Panda Font/Boba Panda Font by 7NTypes.otf");
+
+    score.setFont(font);
+
+    score.setString("Score: ");
+    score.setCharacterSize(30);
+    score.setFillColor(sf::Color::White);
+    
+
+}
+
+void GameManager::DrawScore() {
+    window->draw(score);
 }

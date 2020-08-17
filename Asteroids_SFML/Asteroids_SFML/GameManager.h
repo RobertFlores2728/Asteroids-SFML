@@ -41,6 +41,11 @@ public:
 	void CheckBulletAsteroidCollision();
 
 
+	//score
+	void SetupScore();
+	void DrawScore();
+
+
 	std::shared_ptr<sf::RenderWindow> window;
 	std::shared_ptr<sf::Clock> clock;
 
@@ -58,6 +63,9 @@ private:
 	int FPS = 120;
 	
 	sf::Time deltaTime;
+
+	sf::Text score;
+	sf::Font font;
 
 	
 
