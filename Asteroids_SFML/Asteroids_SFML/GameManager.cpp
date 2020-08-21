@@ -9,12 +9,8 @@ GameManager::GameManager() {
 void GameManager::GetInput() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
         std::cout << "P pressed!" << std::endl;
-        RemoveLastBullet();
+        isPaused = !isPaused;
     }
-
-
-
-
 }
 
 
@@ -42,13 +38,21 @@ void GameManager::RunGame() {
         {
             if (event.type == sf::Event::Closed)
                 window->close();
+            if (event.type == sf::Event::KeyPressed) {
+                switch (event.key.code) {
+                    case sf::Keyboard::P:
+                        std::cout << "P pressed!" << std::endl;
+                        isPaused = !isPaused;
+                        break;
+                }
+            }
         }
 
         window->clear();
 
-        GetInput();
         UpdateShips();
         UpdateAsteroids();
+        DrawAsteroids();
         UpdateBullets();
         CheckCollisions();
 
@@ -59,8 +63,15 @@ void GameManager::RunGame() {
     }
 }
 
+
+//UPDATE GAMEOBJECTS
+
 void GameManager::UpdateShips() {
     for (std::shared_ptr<Ship> ship : ships) {
+
+        if (ship == nullptr)
+            continue;
+
         ship->Update(deltaTime);
         ship->Draw();
     }
@@ -69,13 +80,45 @@ void GameManager::UpdateShips() {
 void GameManager::UpdateAsteroids() {
     for (std::shared_ptr<Asteroid> asteroid : asteroids) {
 
-        if (asteroid == nullptr) // fixed the error!
+        if (asteroid == nullptr)
             continue;
 
         asteroid->Update(deltaTime);
+    }
+}
+
+void GameManager::DrawAsteroids() {
+    for (std::shared_ptr<Asteroid> asteroid : asteroids) {
+
+        if (asteroid == nullptr)
+            continue;
+
+       
         asteroid->Draw();
     }
 }
+
+
+void GameManager::UpdateBullets() {
+    for (std::shared_ptr<Bullet> bullet : bullets) {
+
+        if (bullet == nullptr) // fixed the error!
+            continue;
+
+
+        bullet->Update(deltaTime);
+
+        if (bullet->CheckIfLifeOver()) {
+            DespawnBullet(bullet);
+            continue;
+        }
+
+        bullet->Draw();
+    }
+}
+
+
+
 
 void GameManager::SpawnAsteroids(int n) {
     std::srand((int)std::time(0));
@@ -114,33 +157,12 @@ void GameManager::SpawnAsteroids(int n) {
 
         std::shared_ptr<Asteroid> a(new Asteroid(*this, forwardUV, position, speed));
         asteroids.push_back(a);
-    }
-
-    
+    }   
 }
 
 
 
-//bullet
-void GameManager::UpdateBullets() {
-    for (std::shared_ptr<Bullet> bullet : bullets) {
 
-        if (bullet == nullptr) // fixed the error!
-            continue;
-
-        bullet->Update(deltaTime);
-
-        if (bullet->CheckIfLifeOver()) {
-            DespawnBullet(bullet);
-            continue;
-        }
-
-        bullet->Draw();
-
-        
-        
-    }
-}
 
 
 void GameManager::ShootBullet() {
@@ -247,6 +269,11 @@ void GameManager::SetupScore() {
 
     score.setFont(font);
 
+    sf::Vector2<float> position;
+    position.x = window->getSize().x / 2;
+    position.y = 0;
+    score.setPosition(position);
+
     score.setString("Score: ");
     score.setCharacterSize(30);
     score.setFillColor(sf::Color::White);
@@ -257,3 +284,7 @@ void GameManager::SetupScore() {
 void GameManager::DrawScore() {
     window->draw(score);
 }
+
+
+
+

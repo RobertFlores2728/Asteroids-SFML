@@ -16,8 +16,7 @@ class GameManager
 public:
 	GameManager();
 
-	//game manager input
-	void GetInput();
+	
 
 	void SetupGame();
 	void RunGame();
@@ -26,6 +25,7 @@ public:
 
 	//asteroid
 	void UpdateAsteroids();
+	void DrawAsteroids();
 	void SpawnAsteroids(int n);
 
 	//bullet
@@ -49,8 +49,9 @@ public:
 	std::shared_ptr<sf::RenderWindow> window;
 	std::shared_ptr<sf::Clock> clock;
 
-	std::shared_ptr<Ship> ship;
+
 	//game object vectors
+	std::shared_ptr<Ship> ship;
 	std::vector< std::shared_ptr<Ship> > ships;
 
 	std::vector < std::shared_ptr<Bullet> > bullets;
@@ -67,7 +68,7 @@ private:
 	sf::Text score;
 	sf::Font font;
 
-	
+	bool isPaused = false;
 
 	
 };

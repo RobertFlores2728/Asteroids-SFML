@@ -32,8 +32,8 @@ void Ship::SetupConvexShape() {
 }
 
 void Ship::SetupSprite() {
-    position.x = 500;
-    position.y = 500;
+    position.x = gm->window->getSize().x / 2;
+    position.y = gm->window->getSize().y / 2;
 
     shipTexture.create(shipSize * 2, shipSize * 2);
     shipSprite = sf::Sprite(shipTexture.getTexture());
