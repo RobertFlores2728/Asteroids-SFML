@@ -34,6 +34,7 @@ public:
 	void DrawAsteroids();
 	void SpawnAsteroids(int n);
 	void DespawnAsteroid(std::shared_ptr<Asteroid> a);
+	void SpawnLittleAsteroids(int n, sf::Vector2f parentAsteroidPosition);
 
 	//bullets
 	void UpdateBullets();

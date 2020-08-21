@@ -22,22 +22,23 @@ class Asteroid
 
 	sf::ConvexShape asteroidShape;
 
-	float asteroidSize = 50.f;
+	
 
 	
 
 
 	//Movement
-	sf::Vector2<float> position;
 	sf::Vector2f velocity;
 	float asteroidSpeed;
 	sf::Vector2f forwardUnitVector;
 
 public:
+	sf::Vector2<float> position;
+	float asteroidSize;
 
 	sf::Sprite asteroidSprite;
 
-	Asteroid(GameManager& gameManager, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed);
+	Asteroid(GameManager& gameManager, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed, float size);
 	void SetupConvexShape();
 	void SetPolygonPoints();
 	void SetupSprite();

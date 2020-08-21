@@ -1,8 +1,10 @@
 #include "Asteroid.h"
 
-Asteroid::Asteroid(GameManager& gameManager, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed) {
+Asteroid::Asteroid(GameManager& gameManager, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed, float size) {
 
 	gm = &gameManager;
+
+	asteroidSize = size;
 
 	SetupConvexShape();
 	SetupSprite();
