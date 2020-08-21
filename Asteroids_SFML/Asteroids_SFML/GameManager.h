@@ -21,18 +21,25 @@ public:
 	void SetupGame();
 	void RunGame();
 
-	void UpdateShips();
 
-	//asteroid
+	void UpdateGameObjects();
+	void DrawGameObjects();
+
+	//ships
+	void UpdateShips();
+	void DrawShips();
+
+	//asteroids
 	void UpdateAsteroids();
 	void DrawAsteroids();
 	void SpawnAsteroids(int n);
+	void DespawnAsteroid(std::shared_ptr<Asteroid> a);
 
-	//bullet
+	//bullets
 	void UpdateBullets();
+	void DrawBullets();
 	void ShootBullet();
 	void DespawnBullet(std::shared_ptr<Bullet> b);
-	void RemoveLastBullet();
 	void PrintBullets();
 
 	//collision
@@ -44,6 +51,7 @@ public:
 	//score
 	void SetupScore();
 	void DrawScore();
+	void IncrementScore();
 
 
 	std::shared_ptr<sf::RenderWindow> window;
@@ -65,11 +73,11 @@ private:
 	
 	sf::Time deltaTime;
 
-	sf::Text score;
+	sf::Text scoreText;
 	sf::Font font;
 
 	bool isPaused = false;
 
-	
+	int score = 0;
 };
 
