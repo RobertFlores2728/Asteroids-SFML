@@ -19,20 +19,20 @@ Asteroid::Asteroid(GameManager& gameManager, sf::Vector2f forwardUV, sf::Vector2
 void Asteroid::SetupConvexShape() {
 	SetPolygonPoints();
 
-	clear = sf::Color(0, 0, 0, 0);
+	clear = sf::Color(0, 255, 0, 50);
 
 	asteroidShape.setOutlineColor(sf::Color::White);
 	asteroidShape.setOutlineThickness(3);
 	asteroidShape.setFillColor(clear);
 	asteroidShape.setOrigin(asteroidSize, asteroidSize);
-	asteroidShape.setPosition(asteroidSize * 2.5, asteroidSize * 2.2);
+	asteroidShape.setPosition(asteroidSize * 2.5, asteroidSize * 2.5);
 
 	
 }
 
 void Asteroid::SetupSprite() {
 	//create texture to hold shape
-	asteroidTexture.create(asteroidSize * 2.5, asteroidSize * 2.5);
+	asteroidTexture.create(asteroidSize * 2.7, asteroidSize * 2.7);
 	asteroidTexture.clear(clear);
 	asteroidTexture.draw(asteroidShape);
 	asteroidTexture.display();

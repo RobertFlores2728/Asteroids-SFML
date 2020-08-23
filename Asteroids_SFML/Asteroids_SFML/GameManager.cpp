@@ -39,16 +39,23 @@ void GameManager::RunGame() {
                         //std::cout << "P pressed!" << std::endl;
                         isPaused = !isPaused;
                         break;
+                    case sf::Keyboard::S:
+                        //std::cout << "S pressed!" << std::endl;
+                        SpawnLittleAsteroids(2, asteroids.at(0));
+                        DespawnAsteroid(asteroids.at(0));
+                        break;
                 }
             }
         }
 
         window->clear();
 
+        CheckCollisions();
+
         UpdateGameObjects();
         DrawGameObjects();
 
-        CheckCollisions();
+        
 
         DrawScore();
 
@@ -107,6 +114,7 @@ void GameManager::UpdateAsteroids() {
         if (asteroid == nullptr)
             continue;
 
+        
         asteroid->Update(deltaTime);
     }
 }
@@ -150,12 +158,51 @@ void GameManager::DrawBullets() {
     }
 }
 
+void GameManager::ShootBullet() {
+    std::shared_ptr<Bullet> b(new Bullet(*this));
+    bullets.push_back(b);
+
+    //PrintBullets();
+}
+
+void GameManager::DespawnBullet(std::shared_ptr<Bullet> b) {
+
+    if (bullets.empty())
+        return;
+
+
+
+    for (int i = 0; i < bullets.size(); i++) {
+        if (b == bullets.at(i)) {
+
+            //std::cout << "Removing Bullet: " << bullets.at(i) << " at index: " << i << std::endl;
+            bullets.erase(bullets.begin() + i);
+        }
+    }
+
+
+
+    //PrintBullets();
+}
+
+void GameManager::PrintBullets() {
+    //print bullets
+    std::cout << "Bullets:" << std::endl;
+    for (std::shared_ptr<Bullet> bullet : bullets) {
+        if (bullet == nullptr)
+            continue;
+
+        std::cout << bullet << std::endl;
+    }
+
+    std::cout << std::endl;
+}
+
 
 
 void GameManager::SpawnAsteroids(int n) {
     
     for (int i = 0; i < n; i++) {
-        sf::Vector2f forwardUV;
 
 
         //position
@@ -176,6 +223,7 @@ void GameManager::SpawnAsteroids(int n) {
 
 
         //direction
+        sf::Vector2f forwardUV;
         float angle = 1 + rand() % (358 + 1);
         forwardUV.x = std::cos(angle * (3.141592 / 180.0));
         forwardUV.y = std::sin(angle * (3.141592 / 180.0));
@@ -188,7 +236,7 @@ void GameManager::SpawnAsteroids(int n) {
 
         //size
         float size = 45 + rand() % (4 + 1);
-        std::cout << "Asteroid size: " << size << std::endl;
+        //std::cout << "Asteroid size: " << size << std::endl;
 
 
         std::shared_ptr<Asteroid> a(new Asteroid(*this, forwardUV, position, speed, size));
@@ -196,19 +244,11 @@ void GameManager::SpawnAsteroids(int n) {
     }   
 }
 
-void GameManager::SpawnLittleAsteroids(int n, sf::Vector2f parentAsteroidPosition) {
+void GameManager::SpawnLittleAsteroids(int n, std::shared_ptr<Asteroid> parentAsteroid) {
     
     for (int i = 0; i < n; i++) {
-        float asteroidSpeed = 1 * 10000.0f;
-        sf::Vector2f forwardUV;
-
-
-        //position
-        sf::Vector2<float> position;
-        position.x = parentAsteroidPosition.x;
-        position.y = parentAsteroidPosition.y;
-
         //direction
+        sf::Vector2f forwardUV;
         float angle = 1 + rand() % (358 + 1);
         forwardUV.x = std::cos(angle * (3.141592 / 180.0));
         forwardUV.y = std::sin(angle * (3.141592 / 180.0));
@@ -221,10 +261,10 @@ void GameManager::SpawnLittleAsteroids(int n, sf::Vector2f parentAsteroidPositio
 
         //size
         float size = 20 + rand() % (9 + 1);
-        std::cout << "Asteroid size: " << size << std::endl;
+        //std::cout << "Asteroid size: " << size << std::endl;
 
 
-        std::shared_ptr<Asteroid> a(new Asteroid(*this, forwardUV, position, speed, size));
+        std::shared_ptr<Asteroid> a(new Asteroid(*this, forwardUV, parentAsteroid->position, speed, size));
         asteroids.push_back(a);
     }
 }
@@ -239,54 +279,26 @@ void GameManager::DespawnAsteroid(std::shared_ptr<Asteroid> a) {
 
     for (int i = 0; i < asteroids.size(); i++) {
         if (a == asteroids.at(i)) {
-            std::cout << "Removing Asteroid: " << asteroids.at(i) << " at index: " << i << std::endl;
             asteroids.erase(asteroids.begin() + i);
         }
     }
 }
 
 
-
-
-void GameManager::ShootBullet() {
-    std::shared_ptr<Bullet> b(new Bullet(*this));
-    bullets.push_back(b);
-
-    PrintBullets();
-}
-
-void GameManager::DespawnBullet(std::shared_ptr<Bullet> b) {
-
-    if (bullets.empty())
-        return;
-    
-
-    
-    for (int i = 0; i < bullets.size(); i++) {
-        if (b == bullets.at(i)) { 
-
-            std::cout << "Removing Bullet: " << bullets.at(i) << " at index: " << i << std::endl;
-            bullets.erase(bullets.begin() + i);
-        }
-    }
-    
-    
-
-    //PrintBullets();
-}
-
-void GameManager::PrintBullets() {
-    //print bullets
-    std::cout << "Bullets:" << std::endl;
-    for (std::shared_ptr<Bullet> bullet : bullets) {
-        if (bullet == nullptr)
+void GameManager::PrintAsteroids() {
+    //print asteroids
+    std::cout << "Asteroids:" << std::endl;
+    for (std::shared_ptr<Asteroid> a : asteroids) {
+        if (a == nullptr)
             continue;
 
-        std::cout << bullet << std::endl;
+        std::cout << a << std::endl;
     }
 
     std::cout << std::endl;
 }
+
+
 
 
 
@@ -313,6 +325,7 @@ void GameManager::CheckShipAsteroidCollision() {
     }
 }
 
+// this entire function is buggy
 void GameManager::CheckBulletAsteroidCollision() {
     for (std::shared_ptr<Bullet> bullet : bullets) {
 
@@ -324,14 +337,16 @@ void GameManager::CheckBulletAsteroidCollision() {
             if (asteroid == nullptr)
                 continue;
 
+
             if (Collision::BoundingBoxTest(asteroid->asteroidSprite, bullet->bulletSprite)) {
                 //std::cout << "Collision - Bounding box!" << std::endl;
 
                 if (Collision::PixelPerfectTest(asteroid->asteroidSprite, bullet->bulletSprite)) {
                     //std::cout << "Collision - Pixel perfect!" << std::endl;
                     DespawnBullet(bullet);
-                    if (asteroid->asteroidSize >= 45.f)
-                        SpawnLittleAsteroids(2, asteroid->position);
+                    if (asteroid->asteroidSize >= 45.f) {
+                        SpawnLittleAsteroids(2, asteroid);
+                    }
                     DespawnAsteroid(asteroid);
                     IncrementScore();
                 }
