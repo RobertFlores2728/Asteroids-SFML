@@ -39,10 +39,6 @@ void GameManager::RunGame() {
                         //std::cout << "P pressed!" << std::endl;
                         isPaused = !isPaused;
                         break;
-                    case sf::Keyboard::O:
-                        //std::cout << "O pressed!" << std::endl;
-                        SpawnAsteroids(8);
-                        break;
                 }
             }
         }
@@ -331,16 +327,16 @@ void GameManager::CheckShipAsteroidCollision() {
     }
 }
 
-/* this  function gave me lots of trouble!
+/* this function tricky to implement!
 * spawning asteroids could not be done inside of the pixel perfect collision test if statement without a null pointer error occuring
 * perhaps the asteroids vector should not be modififed while its being iterated through mid loop
-* 
+* there are still bugs but are less common now
 */
 void GameManager::CheckBulletAsteroidCollision() {
+    bool collision = false;
+    float aSize = 0.0f;
+    sf::Vector2f aPos;
     for (std::shared_ptr<Bullet> bullet : bullets) {
-        bool collision = false;
-        float aSize = 0.0f;
-        sf::Vector2f aPos;
 
         if (bullet == nullptr)
             continue;
@@ -366,9 +362,10 @@ void GameManager::CheckBulletAsteroidCollision() {
                 }
             }
         }
-        if(collision)
-            SpawnLittleAsteroids(2, aSize, aPos);
+        
     }
+    if (collision)
+        SpawnLittleAsteroids(2, aSize, aPos);
 }
 
 
@@ -396,7 +393,6 @@ void GameManager::SetupScore() {
 void GameManager::DrawScore() {
     window->draw(scoreText);
 }
-
 
 void GameManager::IncrementScore() {
     score += 100;

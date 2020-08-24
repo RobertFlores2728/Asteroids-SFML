@@ -52,13 +52,17 @@ void Ship::Draw() {
 }
 
 void Ship::Update(sf::Time dt) {
-    if (dead)
-        return;
+    if (dead) {
+        if (respawnClock.getElapsedTime().asSeconds() > respawnTime)
+            dead = false;
+    }
 
-    deltaTime = dt;
-    GetInput();
-    GetVelocity();
-    Move();
+    if (!dead) {
+        deltaTime = dt;
+        GetInput();
+        GetVelocity();
+        Move();
+    }
 }
 
 void Ship::Move() {

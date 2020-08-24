@@ -44,8 +44,12 @@ private:
 	int shootDelay = 0; // in milliseconds
 
 
-
+	// death 
 	bool dead = false;
+
+	//respawn
+	sf::Clock respawnClock;
+	int respawnTime = 1;
 
 
 public:
@@ -72,6 +76,7 @@ public:
 
 
 	void Die() {
+		respawnClock.restart();
 		dead = true;
 
 	}

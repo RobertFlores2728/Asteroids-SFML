@@ -38,6 +38,7 @@ public:
 
 	sf::Sprite asteroidSprite;
 
+	Asteroid() = delete;
 	Asteroid(GameManager& gameManager, sf::Vector2f forwardUV, sf::Vector2<float> pos, float speed, float size);
 	void SetupConvexShape();
 	void SetPolygonPoints();
