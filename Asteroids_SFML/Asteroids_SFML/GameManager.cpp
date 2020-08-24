@@ -41,8 +41,7 @@ void GameManager::RunGame() {
                         break;
                     case sf::Keyboard::S:
                         //std::cout << "S pressed!" << std::endl;
-                        SpawnLittleAsteroids(2, asteroids.at(0));
-                        DespawnAsteroid(asteroids.at(0));
+                        //DespawnAsteroid(asteroids.at(0));
                         break;
                 }
             }
@@ -244,7 +243,9 @@ void GameManager::SpawnAsteroids(int n) {
     }   
 }
 
-void GameManager::SpawnLittleAsteroids(int n, std::shared_ptr<Asteroid> parentAsteroid) {
+void GameManager::SpawnLittleAsteroids(int n, float parentSize, sf::Vector2f parentAsteroidPos) {
+    if (parentSize < 45.0f)
+        return;
     
     for (int i = 0; i < n; i++) {
         //direction
@@ -264,7 +265,7 @@ void GameManager::SpawnLittleAsteroids(int n, std::shared_ptr<Asteroid> parentAs
         //std::cout << "Asteroid size: " << size << std::endl;
 
 
-        std::shared_ptr<Asteroid> a(new Asteroid(*this, forwardUV, parentAsteroid->position, speed, size));
+        std::shared_ptr<Asteroid> a(new Asteroid(*this, forwardUV, parentAsteroidPos, speed, size));
         asteroids.push_back(a);
     }
 }
@@ -325,9 +326,16 @@ void GameManager::CheckShipAsteroidCollision() {
     }
 }
 
-// this entire function is buggy
+/* this  function gave me lots of trouble!
+* spawning asteroids could not be done inside of the pixel perfect collision test if statement without a null pointer error occuring
+* perhaps the asteroids vector should not be modififed while its being iterated through mid loop
+* 
+*/
 void GameManager::CheckBulletAsteroidCollision() {
     for (std::shared_ptr<Bullet> bullet : bullets) {
+        bool collision = false;
+        float aSize = 0.0f;
+        sf::Vector2f aPos;
 
         if (bullet == nullptr)
             continue;
@@ -344,14 +352,17 @@ void GameManager::CheckBulletAsteroidCollision() {
                 if (Collision::PixelPerfectTest(asteroid->asteroidSprite, bullet->bulletSprite)) {
                     //std::cout << "Collision - Pixel perfect!" << std::endl;
                     DespawnBullet(bullet);
-                    if (asteroid->asteroidSize >= 45.f) {
-                        SpawnLittleAsteroids(2, asteroid);
-                    }
+                    collision = true;
+                    aSize = asteroid->asteroidSize;
+                    aPos = asteroid->position;
+                    
                     DespawnAsteroid(asteroid);
                     IncrementScore();
                 }
             }
         }
+        if(collision)
+            SpawnLittleAsteroids(2, aSize, aPos);
     }
 }
 
