@@ -19,7 +19,7 @@ public:
 
 	Button(std::string text, sf::Vector2f position);
 
-	void SetupSprite();
+	void SetupSprite(std::string text, sf::Vector2f position);
 
 
 	void Draw();
