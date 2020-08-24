@@ -45,11 +45,16 @@ void Ship::SetupSprite() {
 }
 
 void Ship::Draw() {
+    if (dead)
+        return;
     
     gm->window->draw(shipSprite);
 }
 
 void Ship::Update(sf::Time dt) {
+    if (dead)
+        return;
+
     deltaTime = dt;
     GetInput();
     GetVelocity();

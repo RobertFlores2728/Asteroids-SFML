@@ -39,9 +39,9 @@ void GameManager::RunGame() {
                         //std::cout << "P pressed!" << std::endl;
                         isPaused = !isPaused;
                         break;
-                    case sf::Keyboard::S:
-                        //std::cout << "S pressed!" << std::endl;
-                        //DespawnAsteroid(asteroids.at(0));
+                    case sf::Keyboard::O:
+                        //std::cout << "O pressed!" << std::endl;
+                        SpawnAsteroids(8);
                         break;
                 }
             }
@@ -108,6 +108,10 @@ void GameManager::DrawShips() {
 //ASTEROIDS
 
 void GameManager::UpdateAsteroids() {
+    if (asteroids.empty()) {
+        SpawnAsteroids(8);
+    }
+
     for (std::shared_ptr<Asteroid> asteroid : asteroids) {
 
         if (asteroid == nullptr)
@@ -321,6 +325,7 @@ void GameManager::CheckShipAsteroidCollision() {
 
             if (Collision::PixelPerfectTest(asteroid->asteroidSprite, ship->shipSprite)) {
                 //std::cout << "Collision - Pixel perfect!" << std::endl;
+                ship->Die();
             }
         }
     }

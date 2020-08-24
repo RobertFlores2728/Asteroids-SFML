@@ -44,6 +44,10 @@ private:
 	int shootDelay = 0; // in milliseconds
 
 
+
+	bool dead = false;
+
+
 public:
 
 	sf::Vector2f forwardUnitVector;
@@ -65,6 +69,12 @@ public:
 
 	void PrintRotation();
 	void GetVelocity();
+
+
+	void Die() {
+		dead = true;
+
+	}
 
 	
 	
