@@ -5,11 +5,13 @@
 #include <cmath>
 #include "Ship.h"
 #include "Asteroid.h"
+#include "Button.h"
 
 //forward decleration
 class Ship;
 class Asteroid;
 class Bullet;
+class Button;
 
 class GameManager
 {
@@ -55,6 +57,10 @@ public:
 	void DrawScore();
 	void IncrementScore();
 
+	//ui
+	void SetupUI();
+	void DrawUI();
+
 
 	std::shared_ptr<sf::RenderWindow> window;
 	std::shared_ptr<sf::Clock> clock;
@@ -67,6 +73,9 @@ public:
 	std::vector < std::shared_ptr<Bullet> > bullets;
 
 	std::vector< std::shared_ptr<Asteroid> > asteroids;
+
+
+	std::vector < std::shared_ptr<Button> > buttons;
 
 private:
 	//sfml game settings

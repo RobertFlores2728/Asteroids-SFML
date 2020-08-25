@@ -3,6 +3,7 @@
 GameManager::GameManager() {
     SetupGame();
     SetupScore();
+    SetupUI();
 }
 
 
@@ -19,6 +20,7 @@ void GameManager::SetupGame() {
 	ships.push_back(ship);
 
     SpawnAsteroids(8);
+
 }
 
 void GameManager::RunGame() {
@@ -73,6 +75,7 @@ void GameManager::DrawGameObjects() {
     DrawShips();
     DrawAsteroids();
     DrawBullets();
+    DrawUI();
 }
 
 
@@ -402,3 +405,22 @@ void GameManager::IncrementScore() {
 
 
 
+//UI
+void GameManager::SetupUI() {
+    sf::Vector2f position(250, 250);
+    std::shared_ptr<Button> pause(new Button(*this, "Pause", position));
+    buttons.push_back(pause);
+}
+
+void GameManager::DrawUI() {
+    if (isPaused) {
+        for (std::shared_ptr<Button> b : buttons) {
+
+            if (b == nullptr)
+                continue;
+
+
+            b->Draw();
+        }
+    }
+}
