@@ -63,12 +63,10 @@ void GameManager::RunGame() {
 
 
 void GameManager::UpdateGameObjects() {
-    if (isPaused)
-        return;
-
     UpdateShips();
     UpdateAsteroids();
     UpdateBullets();
+    UpdateUI();
 }
 
 void GameManager::DrawGameObjects() {
@@ -82,6 +80,9 @@ void GameManager::DrawGameObjects() {
 //SHIPS
 
 void GameManager::UpdateShips() {
+    if (isPaused)
+        return;
+
     for (std::shared_ptr<Ship> ship : ships) {
 
         if (ship == nullptr)
@@ -107,6 +108,10 @@ void GameManager::DrawShips() {
 //ASTEROIDS
 
 void GameManager::UpdateAsteroids() {
+    if (isPaused)
+        return;
+
+
     if (asteroids.empty()) {
         SpawnAsteroids(8);
     }
@@ -135,6 +140,10 @@ void GameManager::DrawAsteroids() {
 
 //BULLETS
 void GameManager::UpdateBullets() {
+    if (isPaused)
+        return;
+
+
     for (std::shared_ptr<Bullet> bullet : bullets) {
 
         if (bullet == nullptr) // fixed the error!
@@ -407,9 +416,15 @@ void GameManager::IncrementScore() {
 
 //UI
 void GameManager::SetupUI() {
-    sf::Vector2f position(250, 250);
-    std::shared_ptr<Button> pause(new Button(*this, "Pause", position));
-    buttons.push_back(pause);
+    sf::Vector2f resumePos(500, 300);
+    std::shared_ptr<Button> resume(new Button(*this, "Resume", resumePos));
+    buttons.push_back(resume);
+
+    /*
+    sf::Vector2f quitPos(500, 500);
+    std::shared_ptr<Button> quit(new Button(*this, "Quit", quitPos));
+    buttons.push_back(quit);
+    */
 }
 
 void GameManager::DrawUI() {
@@ -421,6 +436,19 @@ void GameManager::DrawUI() {
 
 
             b->Draw();
+        }
+    }
+}
+
+void GameManager::UpdateUI() {
+    if (isPaused) {
+        for (std::shared_ptr<Button> b : buttons) {
+
+            if (b == nullptr)
+                continue;
+
+
+            b->Update();
         }
     }
 }

@@ -59,6 +59,7 @@ public:
 
 	//ui
 	void SetupUI();
+	void UpdateUI();
 	void DrawUI();
 
 

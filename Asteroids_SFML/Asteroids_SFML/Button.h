@@ -23,6 +23,7 @@ public:
 	float outlineThickness = 5.0f;
 
 	sf::Text buttonText;
+	std::string text;
 	sf::Font font;
 
 
@@ -31,13 +32,13 @@ public:
 	Button(GameManager& gameManager, std::string text, sf::Vector2f position);
 
 	void SetupRectangleShape();
-	void SetupSprite(std::string text, sf::Vector2f position);
+	void SetupSprite();
 	void SetupText();
 
 
 	void Draw();
 	void Update();
 
-
+	void CheckMouseInput();
 };
 
