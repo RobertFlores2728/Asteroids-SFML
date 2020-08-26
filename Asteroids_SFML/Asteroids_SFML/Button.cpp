@@ -1,8 +1,10 @@
 #include "Button.h"
 
-Button::Button(GameManager& gameManager, std::string text, sf::Vector2f pos) {
+Button::Button(GameManager& gameManager, std::string text, sf::Vector2f pos, void (*f)()) {
     
     gm = &gameManager;
+
+    func = f;
 
     this->text = text;
     this->position = pos;
@@ -64,20 +66,33 @@ void Button::Draw() {
 
 void Button::Update() {
     //check for mouse hovering, click, etc.
+    CheckMouseHover();
     CheckMouseInput();
 }
 
 
-void Button::CheckMouseInput() {
+void Button::CheckMouseHover() {
 
-    sf::Mouse mouse;
-    //std::cout << "Mouse pos. X: " << mouse.getPosition(*gm->window).x << " Y: " << mouse.getPosition(*gm->window).y << std::endl;
-
-    if (mouse.getPosition(*gm->window).x > this->position.x - (size.x / 2) && mouse.getPosition(*gm->window).x < this->position.x + (size.x / 2)) {
+    if (mouse.getPosition(*gm->window).x > this->position.x - (size.x / 2) && mouse.getPosition(*gm->window).x < this->position.x + (size.x / 2) + outlineThickness) {
         
         if (mouse.getPosition(*gm->window).y > this->position.y - (size.y / 2) && mouse.getPosition(*gm->window).y < this->position.y + (size.y / 2)) {
-            std::cout << "Yeas!" << std::endl;
+            //std::cout << "Mouse pos. X: " << mouse.getPosition(*gm->window).x << " Y: " << mouse.getPosition(*gm->window).y << std::endl;
+            mouseOver = true;
+            return;
         }
+    }
+
+    mouseOver = false;
+}
+
+
+void Button::CheckMouseInput() {
+    if (!mouseOver)
+        return;
+
+    if (mouse.isButtonPressed(sf::Mouse::Button::Left)) {
+        std::cout << "Mouse pos. X: " << mouse.getPosition(*gm->window).x << " Y: " << mouse.getPosition(*gm->window).y << std::endl;
+        (*func)();
     }
 
 }

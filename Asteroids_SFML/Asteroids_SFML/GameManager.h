@@ -27,6 +27,8 @@ public:
 	void UpdateGameObjects();
 	void DrawGameObjects();
 
+	void PauseGame();
+
 	//ships
 	void UpdateShips();
 	void DrawShips();

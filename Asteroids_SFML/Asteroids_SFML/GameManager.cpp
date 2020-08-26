@@ -39,7 +39,7 @@ void GameManager::RunGame() {
                 switch (event.key.code) {
                     case sf::Keyboard::P:
                         //std::cout << "P pressed!" << std::endl;
-                        isPaused = !isPaused;
+                        PauseGame();
                         break;
                 }
             }
@@ -59,6 +59,10 @@ void GameManager::RunGame() {
         window->display();
 
     }
+}
+
+void GameManager::PauseGame() {
+    isPaused = !isPaused;
 }
 
 
@@ -412,12 +416,12 @@ void GameManager::IncrementScore() {
 }
 
 
-
+void Test() {}
 
 //UI
 void GameManager::SetupUI() {
     sf::Vector2f resumePos(500, 300);
-    std::shared_ptr<Button> resume(new Button(*this, "Resume", resumePos));
+    std::shared_ptr<Button> resume(new Button(*this, "Resume", resumePos, Test));
     buttons.push_back(resume);
 
     /*
