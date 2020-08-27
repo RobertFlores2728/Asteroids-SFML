@@ -65,6 +65,10 @@ void GameManager::PauseGame() {
     isPaused = !isPaused;
 }
 
+void GameManager::QuitGame() {
+    isPaused = !isPaused;
+}
+
 
 void GameManager::UpdateGameObjects() {
     UpdateShips();
@@ -416,19 +420,19 @@ void GameManager::IncrementScore() {
 }
 
 
-void Test() {}
+
 
 //UI
 void GameManager::SetupUI() {
     sf::Vector2f resumePos(500, 300);
-    std::shared_ptr<Button> resume(new Button(*this, "Resume", resumePos, Test));
+    std::shared_ptr<Button> resume(new Button(*this, "Resume", resumePos));
     buttons.push_back(resume);
 
-    /*
+    
     sf::Vector2f quitPos(500, 500);
     std::shared_ptr<Button> quit(new Button(*this, "Quit", quitPos));
     buttons.push_back(quit);
-    */
+    
 }
 
 void GameManager::DrawUI() {

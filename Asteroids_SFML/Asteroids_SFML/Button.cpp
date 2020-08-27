@@ -1,10 +1,8 @@
 #include "Button.h"
 
-Button::Button(GameManager& gameManager, std::string text, sf::Vector2f pos, void (*f)()) {
+Button::Button(GameManager& gameManager, std::string text, sf::Vector2f pos) {
     
     gm = &gameManager;
-
-    func = f;
 
     this->text = text;
     this->position = pos;
@@ -92,7 +90,17 @@ void Button::CheckMouseInput() {
 
     if (mouse.isButtonPressed(sf::Mouse::Button::Left)) {
         std::cout << "Mouse pos. X: " << mouse.getPosition(*gm->window).x << " Y: " << mouse.getPosition(*gm->window).y << std::endl;
-        (*func)();
+        RunFunction();
     }
 
+}
+
+
+void Button::RunFunction() {
+    if (text == "Resume") {
+        gm->PauseGame();
+    }
+    if (text == "Quit") {
+        gm->window->close();
+    }
 }

@@ -29,12 +29,10 @@ public:
 	sf::Mouse mouse;
 	bool mouseOver = false;
 
-	void (*func)();
-
 
 	Button() = delete;
 
-	Button(GameManager& gameManager, std::string text, sf::Vector2f position, void (*f)());
+	Button(GameManager& gameManager, std::string text, sf::Vector2f position);
 
 	void SetupRectangleShape();
 	void SetupSprite();
@@ -46,5 +44,7 @@ public:
 
 	void CheckMouseHover();
 	void CheckMouseInput();
+
+	void RunFunction();
 };
 
